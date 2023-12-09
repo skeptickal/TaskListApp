@@ -42,7 +42,10 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         backgroundColor: bgColor,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text('Completed Tasks'),
+          title: const Text(
+            'Completed Tasks',
+            style: TextStyle(color: Colors.white),
+          ),
           centerTitle: true,
         ),
         body: ListView.builder(

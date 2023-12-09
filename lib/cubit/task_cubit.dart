@@ -1,13 +1,13 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   TaskCubit() : super(TaskInitial());
 
   void addTask({required String taskName}) {
+    //taskClient.addTask(taskName);
     emit(
       state.copyWith(
         taskNames: [...state.taskNames, taskName],
@@ -16,7 +16,16 @@ class TaskCubit extends Cubit<TaskState> {
     );
   }
 
+  // void readTasks() {
+  //   emit(
+  //     state.copyWith(
+  //       taskNames: [...state.taskNames, response.body],
+  //     ),
+  //   );
+  // }
+
   void removeTask({required String taskName}) {
+    //taskClient.removeTask(taskName);
     emit(state.removeTask(taskName));
   }
 

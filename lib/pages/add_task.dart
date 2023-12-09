@@ -19,7 +19,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       appBar: AppBar(
         title: const Text(
           'Add a Task',
-          style: TextStyle(letterSpacing: 2.0),
+          style: TextStyle(letterSpacing: 2.0, color: Colors.white),
         ),
         centerTitle: true,
         backgroundColor: Colors.black,
@@ -32,20 +32,23 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               controller: _addTask,
               decoration: const InputDecoration(
                 filled: true,
-                fillColor: Color.fromARGB(255, 173, 173, 173),
+                fillColor: Color.fromARGB(255, 255, 255, 255),
                 hintText: 'Add a Task here',
               ),
             ),
           ),
           ElevatedButton.icon(
-              icon: const Icon(Icons.add),
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
               onPressed: () {
                 context.read<TaskCubit>().addTask(taskName: _addTask.text);
                 _addTask.clear();
                 context.go('/');
               },
-              label:
-                  const Text('Add Task', style: TextStyle(letterSpacing: 2.0)),
+              label: const Text('Add Task',
+                  style: TextStyle(letterSpacing: 2.0, color: Colors.white)),
               style: ElevatedButton.styleFrom(backgroundColor: Colors.black)),
         ],
       ),

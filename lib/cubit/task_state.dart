@@ -13,10 +13,10 @@ class TaskState extends Equatable {
   const TaskState(
       {required this.taskNames, this.taskName, required this.completedTasks});
 
-  TaskState copyWith(
-      {List<String>? taskNames, required List<String> completedTasks}) {
+  TaskState copyWith({List<String>? taskNames, List<String>? completedTasks}) {
     return TaskState(
-        taskNames: taskNames ?? this.taskNames, completedTasks: completedTasks);
+        taskNames: taskNames ?? this.taskNames,
+        completedTasks: completedTasks ?? this.completedTasks);
   }
 
   TaskState removeTask(String taskNameToRemove) {
@@ -27,6 +27,8 @@ class TaskState extends Equatable {
         taskName: taskName,
         completedTasks: completedTasks);
   }
+
+//make into one cubit ^
 
   TaskState completeTask({List<String>? completedTasks}) {
     return TaskState(

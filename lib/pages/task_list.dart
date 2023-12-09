@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_list_app/client/task_client.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 
 class TaskList extends StatefulWidget {
@@ -16,8 +17,15 @@ class _TaskListState extends State<TaskList> {
       const TextStyle(color: Colors.white, letterSpacing: 2.0);
   Color iconColor = const Color.fromARGB(255, 173, 173, 173);
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   TaskClient.getTasks();
+  // }
+
   @override
   Widget build(BuildContext context) {
+    //context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
         List<Widget> tasks = state.taskNames.map(
