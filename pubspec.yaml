@@ -43,6 +43,7 @@ dependencies:
   equatable: ^2.0.5
   mocktail: ^1.0.1
   _fe_analyzer_shared: ^64.0.0
+  http: ^1.1.2
 
 dev_dependencies:
   flutter_test:
