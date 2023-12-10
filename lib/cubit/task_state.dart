@@ -44,15 +44,12 @@ class TaskState extends Equatable {
         taskName: taskName,
         completedTasks: newCompletedTasks);
   }
-
-  // TaskState readTasks() {}
 }
 
 final class TaskInitial extends TaskState {
   TaskInitial()
       : super(
           taskNames: [],
-          //taskNames: context.read<TaskCubit>().readTasks();
           completedTasks: [],
         );
 }

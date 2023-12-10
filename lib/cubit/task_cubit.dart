@@ -19,9 +19,9 @@ class TaskCubit extends Cubit<TaskState> {
 
   Future<void> readTasks() async {
     TaskService service = const TaskService();
-    String task1 = await service.readTasks();
+    String tasks = await service.readTasks();
     emit(state.copyWith(
-      taskNames: [task1],
+      taskNames: [tasks],
     ));
   }
 

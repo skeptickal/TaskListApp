@@ -29,6 +29,5 @@ class BackendClient {
     //remove from current tasks, add to completed tasks list @PutRequest, refactor cubit later
   }
 
-  //deleteTasks - remove completely from API and view
-  //complete rask
+  //TODO: void deleteData(String data) - remove completely from API and view
 }
