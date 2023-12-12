@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
-import 'package:task_list_app/models/Task.dart';
+import 'package:task_list_app/models/task.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});

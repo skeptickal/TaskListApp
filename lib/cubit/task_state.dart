@@ -3,7 +3,7 @@ part of 'task_cubit.dart';
 @immutable
 class TaskState extends Equatable {
   final List<Task> taskNames;
-  final String? taskName;
+  final Task? taskName;
   final List<Task> completedTasks;
   @override
   List<Object?> get props => [
@@ -19,7 +19,7 @@ class TaskState extends Equatable {
         completedTasks: completedTasks ?? this.completedTasks);
   }
 
-  TaskState removeTask(String taskNameToRemove) {
+  TaskState removeTask(Task taskNameToRemove) {
     List<Task> newTaskNames = List.from(taskNames);
     newTaskNames.remove(taskNameToRemove);
     return TaskState(
