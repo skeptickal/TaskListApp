@@ -45,6 +45,7 @@ dependencies:
   _fe_analyzer_shared: ^64.0.0
   http: ^1.1.2
   convert: ^3.1.1
+  fixnum: ^1.1.0
 
 dev_dependencies:
   flutter_test:

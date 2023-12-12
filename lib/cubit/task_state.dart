@@ -36,7 +36,7 @@ class TaskState extends Equatable {
         completedTasks: completedTasks ?? this.completedTasks);
   }
 
-  TaskState deleteTask(String taskNameToRemove) {
+  TaskState deleteTask(Task taskNameToRemove) {
     List<Task> newCompletedTasks = List.from(completedTasks);
     newCompletedTasks.remove(taskNameToRemove);
     return TaskState(

@@ -31,9 +31,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
             ),
             trailing: GestureDetector(
                 onTap: () {
-                  context
-                      .read<TaskCubit>()
-                      .deleteTask(taskName: taskName.getName());
+                  context.read<TaskCubit>().deleteTask(taskName: taskName);
                 },
                 child: Icon(Icons.delete, color: iconColor)),
           );

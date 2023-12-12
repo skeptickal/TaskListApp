@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:task_list_app/client/backend_client.dart';
-import 'package:task_list_app/models/Task.dart';
+import 'package:task_list_app/models/task.dart';
 
 class TaskService {
   const TaskService();
@@ -11,9 +9,9 @@ class TaskService {
 
   Future<List<Task>> readTasks() async {
     BackendClient client = const BackendClient();
-    List<Map<Long, String>> nonTask = await client.getData(uri: taskApiBase);
-    List<Task> tasks = nonTask.map((task) {
-      return Task(id: task['id'] ?? 0, name: task['name'] ?? '');
+    List<Map<String, String>> apiTask = await client.getData(uri: taskApiBase);
+    List<Task> tasks = apiTask.map((task) {
+      return Task(id: task['id'] ?? '', name: task['name'] ?? '');
     }).toList();
 
     return tasks;

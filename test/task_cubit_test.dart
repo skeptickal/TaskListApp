@@ -19,9 +19,9 @@ main() {
     build: () => TaskCubit(),
     act: (cubit) {
       cubit.addTask(taskName: task);
-      cubit.completeTask(taskName: 'example task');
-      cubit.removeTask(taskName: 'example task');
-      cubit.deleteTask(taskName: 'example task');
+      cubit.completeTask(taskName: task);
+      cubit.removeTask(taskName: task);
+      cubit.deleteTask(taskName: task);
     },
     skip: 1,
     expect: () => <TaskState>[

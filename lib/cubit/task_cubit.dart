@@ -21,22 +21,23 @@ class TaskCubit extends Cubit<TaskState> {
 
   Future<void> readTasks() async {
     TaskService service = const TaskService();
+    //List<Task> tasks = await service.readTasks();
     List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
       taskNames: [
-        tasks.map((task) {
-          return task.getName();
+        ...tasks.map((task) {
+          return task;
         })
       ],
     ));
   }
 
-  void removeTask({required String taskName}) {
+  void removeTask({required Task taskName}) {
     //taskClient.removeTask(taskName);
     emit(state.removeTask(taskName));
   }
 
-  void completeTask({required String taskName}) {
+  void completeTask({required Task taskName}) {
     emit(
       state.copyWith(
         completedTasks: [
@@ -47,7 +48,7 @@ class TaskCubit extends Cubit<TaskState> {
     );
   }
 
-  void deleteTask({required String taskName}) {
+  void deleteTask({required Task taskName}) {
     emit(state.deleteTask(taskName));
   }
 }

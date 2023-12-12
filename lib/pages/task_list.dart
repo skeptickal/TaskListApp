@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
-import 'package:task_list_app/models/task.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
@@ -37,10 +36,10 @@ class _TaskListState extends State<TaskList> {
                   onTap: () {
                     context.read<TaskCubit>().completeTask(
                         taskName:
-                            taskName.getName()); //add context.read to use cubit
+                            taskName); //add context.read to use cubit
                     context
                         .read<TaskCubit>()
-                        .removeTask(taskName: taskName.getName());
+                        .removeTask(taskName: taskName);
                   },
                   child: Icon(Icons.delete, color: iconColor)),
             );
