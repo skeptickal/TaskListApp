@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 class BackendClient {
@@ -9,9 +11,10 @@ class BackendClient {
     var url = Uri.http('10.0.2.2:8080', uri);
     try {
       var response = await http.get(url);
+      List<dynamic> data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        return response.body;
+        return data;
       } else {
         return 'HTTP Request failed with status: ${response.statusCode}';
       }
