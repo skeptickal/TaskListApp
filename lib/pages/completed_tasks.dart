@@ -26,12 +26,14 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               color: iconColor,
             ),
             title: Text(
-              taskName,
+              taskName.getName(),
               style: tilesText,
             ),
             trailing: GestureDetector(
                 onTap: () {
-                  context.read<TaskCubit>().deleteTask(taskName: taskName);
+                  context
+                      .read<TaskCubit>()
+                      .deleteTask(taskName: taskName.getName());
                 },
                 child: Icon(Icons.delete, color: iconColor)),
           );

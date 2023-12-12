@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key});
@@ -43,7 +44,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                context.read<TaskCubit>().addTask(taskName: _addTask.text);
+                context.read<TaskCubit>().addTask(taskName: Task(id: null, name: _addTask.text));
                 _addTask.clear();
                 context.go('/');
               },

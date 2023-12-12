@@ -1,14 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/service/task_service.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   TaskCubit() : super(TaskInitial());
 
-  void addTask({required String taskName}) {
-    //taskClient.addTask(taskName);
+  void addTask({required Task taskName}) {
+    TaskService taskService = TaskService();
+    taskService.addTask(taskName: taskName);
     emit(
       state.copyWith(
         taskNames: [...state.taskNames, taskName],
@@ -19,9 +21,13 @@ class TaskCubit extends Cubit<TaskState> {
 
   Future<void> readTasks() async {
     TaskService service = const TaskService();
-    String tasks = await service.readTasks();
+    List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
-      taskNames: [tasks],
+      taskNames: [
+        tasks.map((task) {
+          return task.getName();
+        })
+      ],
     ));
   }
 
