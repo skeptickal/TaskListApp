@@ -7,10 +7,10 @@ part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   TaskCubit() : super(TaskInitial());
+  TaskService service = TaskService();
 
   void addTask({required Task taskName}) {
-    TaskService taskService = TaskService();
-    taskService.addTask(taskName: taskName);
+    service.addTask(taskName: taskName);
     emit(
       state.copyWith(
         taskNames: [...state.taskNames, taskName],
@@ -20,7 +20,6 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> readTasks() async {
-    TaskService service = const TaskService();
     List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
       taskNames: [...tasks],

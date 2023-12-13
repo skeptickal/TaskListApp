@@ -10,16 +10,4 @@ class Task {
       name: json['name'].toString(),
     );
   }
-
-  String getName() {
-    return name;
-  }
-
-  String? getId() {
-    return id;
-  }
-
-  void setName(String name) {
-    this.name = name;
-  }
 }

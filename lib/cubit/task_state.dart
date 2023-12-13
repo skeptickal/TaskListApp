@@ -6,10 +6,7 @@ class TaskState extends Equatable {
   final Task? taskName;
   final List<Task> completedTasks;
   @override
-  List<Object?> get props => [
-        taskName, taskNames, completedTasks
-        // all properties here, comma separated
-      ];
+  List<Object?> get props => [taskName, taskNames, completedTasks];
   const TaskState(
       {required this.taskNames, this.taskName, required this.completedTasks});
 
