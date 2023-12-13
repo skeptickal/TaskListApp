@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:task_list_app/client/backend_client.dart';
 import 'package:task_list_app/models/task.dart';
 
@@ -10,8 +9,7 @@ class TaskService {
   Future<void> addTask({required Task taskName}) async {}
 
   Future<List<Task>> readTasks() async {
-    String apiTask = await client.getData(uri: taskApiBase);
-    dynamic data = jsonDecode(apiTask);
+    dynamic data = await client.getData(uri: taskApiBase);
     List<Task> tasks =
         List<Task>.from(data.map((taskData) => Task.fromJson(taskData)));
     print(data);

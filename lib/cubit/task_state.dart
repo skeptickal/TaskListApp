@@ -25,7 +25,7 @@ class TaskState extends Equatable {
         completedTasks: completedTasks);
   }
 
-//make into one cubit ^
+// TODO: make into one cubit ^
 
   TaskState completeTask({List<Task>? completedTasks}) {
     return TaskState(
