@@ -8,7 +8,6 @@ class Utils {
     final navigatorFinder = find.byType(Navigator);
     expect(navigatorFinder, findsOneWidget);
 
-    // Get the NavigatorState from the Navigator widget
     final NavigatorState navigator = tester.state(navigatorFinder);
     expect(
         GoRouter.of(navigator.context)

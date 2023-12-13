@@ -29,13 +29,12 @@ class _TaskListState extends State<TaskList> {
                 color: iconColor,
               ),
               title: Text(
-                taskName,
+                taskName.name,
                 style: tilesText,
               ),
               trailing: GestureDetector(
                   onTap: () {
-                    context.read<TaskCubit>().completeTask(
-                        taskName: taskName); //add context.read to use cubit
+                    context.read<TaskCubit>().completeTask(taskName: taskName);
                     context.read<TaskCubit>().removeTask(taskName: taskName);
                   },
                   child: Icon(Icons.delete, color: iconColor)),

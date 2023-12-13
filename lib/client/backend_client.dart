@@ -1,17 +1,19 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
+import 'package:task_list_app/constants/constants.dart';
 
 class BackendClient {
   const BackendClient();
 
-//functions to connect with API
-
   Future<dynamic> getData({required String uri}) async {
-    var url = Uri.http('10.0.2.2:8080', uri);
+    var url = Uri.http(localhost, uri);
     try {
       var response = await http.get(url);
+      dynamic data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        return response.body;
+        return data;
       } else {
         return 'HTTP Request failed with status: ${response.statusCode}';
       }
@@ -29,5 +31,5 @@ class BackendClient {
     //remove from current tasks, add to completed tasks list @PutRequest, refactor cubit later
   }
 
-  //TODO: void deleteData(String data) - remove completely from API and view
+  //void deleteData(String data) - remove completely from API and view
 }

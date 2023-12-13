@@ -2,25 +2,22 @@ part of 'task_cubit.dart';
 
 @immutable
 class TaskState extends Equatable {
-  final List<String> taskNames;
-  final String? taskName;
-  final List<String> completedTasks;
+  final List<Task> taskNames;
+  final Task? taskName;
+  final List<Task> completedTasks;
   @override
-  List<Object?> get props => [
-        taskName, taskNames, completedTasks
-        // all properties here, comma separated
-      ];
+  List<Object?> get props => [taskName, taskNames, completedTasks];
   const TaskState(
       {required this.taskNames, this.taskName, required this.completedTasks});
 
-  TaskState copyWith({List<String>? taskNames, List<String>? completedTasks}) {
+  TaskState copyWith({List<Task>? taskNames, List<Task>? completedTasks}) {
     return TaskState(
         taskNames: taskNames ?? this.taskNames,
         completedTasks: completedTasks ?? this.completedTasks);
   }
 
-  TaskState removeTask(String taskNameToRemove) {
-    List<String> newTaskNames = List.from(taskNames);
+  TaskState removeTask(Task taskNameToRemove) {
+    List<Task> newTaskNames = List.from(taskNames);
     newTaskNames.remove(taskNameToRemove);
     return TaskState(
         taskNames: newTaskNames,
@@ -28,16 +25,16 @@ class TaskState extends Equatable {
         completedTasks: completedTasks);
   }
 
-//make into one cubit ^
+// TODO: make into one cubit ^
 
-  TaskState completeTask({List<String>? completedTasks}) {
+  TaskState completeTask({List<Task>? completedTasks}) {
     return TaskState(
         taskNames: taskNames,
         completedTasks: completedTasks ?? this.completedTasks);
   }
 
-  TaskState deleteTask(String taskNameToRemove) {
-    List<String> newCompletedTasks = List.from(completedTasks);
+  TaskState deleteTask(Task taskNameToRemove) {
+    List<Task> newCompletedTasks = List.from(completedTasks);
     newCompletedTasks.remove(taskNameToRemove);
     return TaskState(
         taskNames: taskNames,

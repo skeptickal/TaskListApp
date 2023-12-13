@@ -26,7 +26,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               color: iconColor,
             ),
             title: Text(
-              taskName,
+              taskName.name,
               style: tilesText,
             ),
             trailing: GestureDetector(

@@ -1,14 +1,16 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/service/task_service.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   TaskCubit() : super(TaskInitial());
+  TaskService service = TaskService();
 
-  void addTask({required String taskName}) {
-    //taskClient.addTask(taskName);
+  void addTask({required Task taskName}) {
+    service.addTask(taskName: taskName);
     emit(
       state.copyWith(
         taskNames: [...state.taskNames, taskName],
@@ -18,19 +20,18 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> readTasks() async {
-    TaskService service = const TaskService();
-    String tasks = await service.readTasks();
+    List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
-      taskNames: [tasks],
+      taskNames: [...tasks],
     ));
   }
 
-  void removeTask({required String taskName}) {
+  void removeTask({required Task taskName}) {
     //taskClient.removeTask(taskName);
     emit(state.removeTask(taskName));
   }
 
-  void completeTask({required String taskName}) {
+  void completeTask({required Task taskName}) {
     emit(
       state.copyWith(
         completedTasks: [
@@ -41,7 +42,7 @@ class TaskCubit extends Cubit<TaskState> {
     );
   }
 
-  void deleteTask({required String taskName}) {
+  void deleteTask({required Task taskName}) {
     emit(state.deleteTask(taskName));
   }
 }
