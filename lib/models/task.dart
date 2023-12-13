@@ -4,7 +4,6 @@ class Task {
 
   Task({id, required this.name});
 
-  // use this to help backend?
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       id: json['id'].toString(),
