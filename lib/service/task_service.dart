@@ -10,10 +10,7 @@ class TaskService {
   Future<List<Task>> readTasks() async {
     BackendClient client = const BackendClient();
     List<Map<String, String>> apiTask = await client.getData(uri: taskApiBase);
-    List<Task> tasks = apiTask.map((task) {
-      return Task(id: task['id'] ?? '', name: task['name'] ?? '');
-    }).toList();
-
+    List<Task> tasks = apiTask.map((task) => Task.fromJson(task)).toList();
     return tasks;
   }
 
