@@ -23,8 +23,16 @@ class BackendClient {
     }
   }
 
-  void postData(String data) {
-    //add task to API @PostRequest
+  Future<http.Response> postData({required String uri, dynamic body}) async {
+    var url = Uri.http(localhost, uri);
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(body),
+    );
+    return response;
   }
 
   void putData(String data) {
