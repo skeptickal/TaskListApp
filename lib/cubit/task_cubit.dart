@@ -11,9 +11,7 @@ class TaskCubit extends Cubit<TaskState> {
 
   void addTask({required Task taskName}) async {
     try {
-      // Assuming service.addTask returns a Future<void>
       await service.addTask(taskName: taskName);
-
       emit(
         state.copyWith(
           taskNames: [...state.taskNames, taskName],
@@ -21,30 +19,26 @@ class TaskCubit extends Cubit<TaskState> {
         ),
       );
     } catch (e) {
-      // Handle the error, e.g., log it or show a notification to the user
       print('Error adding task: $e');
     }
   }
 
   Future<void> readTasks() async {
-    List<Task> tasks = await service.readTasks();
+    final List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
       taskNames: [...tasks],
     ));
   }
 
   void removeTask({required Task taskName}) {
-    //taskClient.removeTask(taskName);
+    //TODO: client.removeTask(taskName);
     emit(state.removeTask(taskName));
   }
 
   void completeTask({required Task taskName}) {
     emit(
       state.copyWith(
-        completedTasks: [
-          ...state.completedTasks,
-          taskName
-        ], // Add the completed task
+        completedTasks: [...state.completedTasks, taskName],
       ),
     );
   }

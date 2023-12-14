@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 
 class TaskList extends StatefulWidget {
@@ -11,11 +12,6 @@ class TaskList extends StatefulWidget {
 }
 
 class _TaskListState extends State<TaskList> {
-  Color bgColor = const Color.fromARGB(255, 48, 48, 48);
-  TextStyle tilesText =
-      const TextStyle(color: Colors.white, letterSpacing: 2.0);
-  Color iconColor = const Color.fromARGB(255, 173, 173, 173);
-
   @override
   Widget build(BuildContext context) {
     context.read<TaskCubit>().readTasks();

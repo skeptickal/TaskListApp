@@ -25,8 +25,8 @@ main() {
     skip: 1,
     expect: () => <TaskState>[
       TaskState(taskNames: [task], completedTasks: [task]),
-      TaskState(taskNames: [], completedTasks: [task]),
-      TaskState(taskNames: [], completedTasks: []),
+      TaskState(taskNames: const [], completedTasks: [task]),
+      const TaskState(taskNames: [], completedTasks: []),
     ],
   );
 }

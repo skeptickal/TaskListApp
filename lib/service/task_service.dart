@@ -8,15 +8,10 @@ class TaskService {
 
   Future<void> addTask({required Task taskName}) async {
     try {
-      final response = await client.postData(
+      await client.postData(
         uri: taskApiBase,
         body: taskName.toJson(),
       );
-      if (response.statusCode == 201) {
-        print('Task added successfully');
-      } else {
-        print('Failed to add task. Status code: ${response.statusCode}');
-      }
     } catch (e) {
       print('Error adding task: $e');
     }
