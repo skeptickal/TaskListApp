@@ -9,35 +9,36 @@ class TaskCubit extends Cubit<TaskState> {
   TaskCubit() : super(TaskInitial());
   TaskService service = TaskService();
 
-  void addTask({required Task taskName}) {
-    service.addTask(taskName: taskName);
-    emit(
-      state.copyWith(
-        taskNames: [...state.taskNames, taskName],
-        completedTasks: state.completedTasks,
-      ),
-    );
+  void addTask({required Task taskName}) async {
+    try {
+      await service.addTask(taskName: taskName);
+      emit(
+        state.copyWith(
+          taskNames: [...state.taskNames, taskName],
+          completedTasks: state.completedTasks,
+        ),
+      );
+    } catch (e) {
+      print('Error adding task: $e');
+    }
   }
 
   Future<void> readTasks() async {
-    List<Task> tasks = await service.readTasks();
+    final List<Task> tasks = await service.readTasks();
     emit(state.copyWith(
       taskNames: [...tasks],
     ));
   }
 
   void removeTask({required Task taskName}) {
-    //taskClient.removeTask(taskName);
+    //TODO: client.removeTask(taskName);
     emit(state.removeTask(taskName));
   }
 
   void completeTask({required Task taskName}) {
     emit(
       state.copyWith(
-        completedTasks: [
-          ...state.completedTasks,
-          taskName
-        ], // Add the completed task
+        completedTasks: [...state.completedTasks, taskName],
       ),
     );
   }

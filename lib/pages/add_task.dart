@@ -44,7 +44,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 color: Colors.white,
               ),
               onPressed: () {
-                context.read<TaskCubit>().addTask(taskName: Task(id: null, name: _addTask.text));
+                context
+                    .read<TaskCubit>()
+                    .addTask(taskName: Task(id: null, name: _addTask.text));
                 _addTask.clear();
                 context.go('/');
               },

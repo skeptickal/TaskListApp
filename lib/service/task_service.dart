@@ -6,7 +6,16 @@ class TaskService {
   static const String taskApiBase = '/tasks';
   BackendClient client = const BackendClient();
 
-  Future<void> addTask({required Task taskName}) async {}
+  Future<void> addTask({required Task taskName}) async {
+    try {
+      await client.postData(
+        uri: taskApiBase,
+        body: taskName.toJson(),
+      );
+    } catch (e) {
+      print('Error adding task: $e');
+    }
+  }
 
   Future<List<Task>> readTasks() async {
     dynamic data = await client.getData(uri: taskApiBase);

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:task_list_app/constants/constants.dart';
 
@@ -23,8 +22,25 @@ class BackendClient {
     }
   }
 
-  void postData(String data) {
-    //add task to API @PostRequest
+  Future<dynamic> postData({required String uri, dynamic body}) async {
+    try {
+      var url = Uri.http(localhost, uri);
+      final response = await http.post(
+        url,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 201) {
+        print('Post executed successfully');
+        return jsonDecode(response.body);
+      } else {
+        print(
+            'Failed to execute Post Request. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      rethrow;
+    }
   }
 
   void putData(String data) {
