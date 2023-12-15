@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:task_list_app/constants/constants.dart';
 
@@ -24,13 +25,13 @@ class BackendClient {
 
   Future<dynamic> postData({required String uri, dynamic body}) async {
     try {
-      var url = Uri.http(localhost, uri);
+      final Uri url = Uri.http(localhost, uri);
       final response = await http.post(
         url,
         headers: headers,
         body: jsonEncode(body),
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == HttpStatus.created) {
         print('Post executed successfully');
         return jsonDecode(response.body);
       } else {
