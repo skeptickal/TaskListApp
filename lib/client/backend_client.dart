@@ -4,7 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:task_list_app/constants/constants.dart';
 
 class BackendClient {
-  const BackendClient();
+  BackendClient();
+  http.Client? _client; // Define the client property
+
+  set client(http.Client client) {
+    _client = client;
+  }
 
   Future<dynamic> getData({required String uri}) async {
     var url = Uri.http(localhost, uri);
