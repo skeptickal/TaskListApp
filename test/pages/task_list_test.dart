@@ -28,7 +28,7 @@ void main() {
       final titleFinder = find.byKey(const Key('taskAdderFloatingButton'));
       expect(titleFinder, findsOneWidget);
       await tester.tap(titleFinder);
-      await Future.delayed(Duration(milliseconds: 500));
+      await Future.delayed(const Duration(milliseconds: 500));
       Utils.expectRoute('/addtask', tester);
     },
   );

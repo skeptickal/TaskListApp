@@ -3,7 +3,7 @@ import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
 main() {
-  Task task = Task(id: null, name: 'example task');
+  Task task = const Task(id: null, name: 'example task');
   blocTest(
     'Add Task adds to the Incompleted Tasks Array',
     //setUp: () => when(()), <- for when communicating with an API, use later for Testing
