@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart' as http;
-import 'package:http/testing.dart';
 
-import 'materializer.dart';
-import 'utils.dart';
+
+import '../materializer.dart';
+import '../utils.dart';
 
 void main() {
   setUp(() {});

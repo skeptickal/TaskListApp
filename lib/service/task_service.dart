@@ -2,9 +2,9 @@ import 'package:task_list_app/client/backend_client.dart';
 import 'package:task_list_app/models/task.dart';
 
 class TaskService {
-  TaskService();
+  final BackendClient client;
   static const String taskApiBase = '/tasks';
-  BackendClient client = BackendClient();
+  TaskService({BackendClient? client}) : client = client ?? BackendClient();
 
   Future<void> addTask({required Task taskName}) async {
     try {
@@ -14,6 +14,7 @@ class TaskService {
       );
     } catch (e) {
       print('Error adding task: $e');
+      throw Exception('Add Task Failed');
     }
   }
 

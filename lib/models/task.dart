@@ -1,8 +1,10 @@
-class Task {
-  String? id;
-  String name;
+import 'package:equatable/equatable.dart';
 
-  Task({id, required this.name});
+class Task extends Equatable {
+  final String? id;
+  final String name;
+
+  const Task({required this.id, required this.name});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
@@ -15,4 +17,7 @@ class Task {
     final Map<String, dynamic> data = {'id': id, 'name': name};
     return data;
   }
+
+  @override
+  List<Object?> get props => [id, name];
 }
