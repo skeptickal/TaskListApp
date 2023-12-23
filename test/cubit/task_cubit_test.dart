@@ -19,7 +19,7 @@ main() {
     act: (cubit) {
       cubit.addTask(taskName: task);
       cubit.completeTask(taskName: task);
-      cubit.removeTask(taskName: task);
+      //cubit.removeTask(taskName: task);
       cubit.deleteTask(taskName: task);
     },
     skip: 1,

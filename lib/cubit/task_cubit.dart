@@ -30,17 +30,13 @@ class TaskCubit extends Cubit<TaskState> {
     ));
   }
 
-  void removeTask({required Task taskName}) {
-    //TODO: client.removeTask(taskName);
-    emit(state.removeTask(taskName));
-  }
-
   void completeTask({required Task taskName}) {
     emit(
       state.copyWith(
         completedTasks: [...state.completedTasks, taskName],
       ),
     );
+    emit(state.removeTask(taskName));
   }
 
   void deleteTask({required Task taskName}) {
