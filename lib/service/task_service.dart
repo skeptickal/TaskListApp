@@ -6,7 +6,7 @@ class TaskService {
 
   final BackendClient client;
 
-  TaskService({BackendClient? client}) : client = client ?? const BackendClient();
+  TaskService({BackendClient? client}) : client = client ?? BackendClient();
 
   Future<void> addTask({required Task taskName}) async {
     try {
