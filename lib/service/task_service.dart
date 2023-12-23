@@ -2,9 +2,11 @@ import 'package:task_list_app/client/backend_client.dart';
 import 'package:task_list_app/models/task.dart';
 
 class TaskService {
-  final BackendClient client;
   static const String taskApiBase = '/tasks';
-  TaskService({BackendClient? client}) : client = client ?? BackendClient();
+
+  final BackendClient client;
+
+  TaskService({BackendClient? client}) : client = client ?? const BackendClient();
 
   Future<void> addTask({required Task taskName}) async {
     try {

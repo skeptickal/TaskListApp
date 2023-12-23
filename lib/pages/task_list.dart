@@ -93,7 +93,7 @@ class _TaskListState extends State<TaskList> {
           floatingActionButton: FloatingActionButton(
             key: const Key('taskAdderFloatingButton'),
             onPressed: () {
-              context.push('/addtask');
+              context.go('/addtask');
             },
             backgroundColor: Colors.black,
             child: Icon(Icons.add, color: iconColor),

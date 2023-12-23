@@ -6,12 +6,13 @@ import 'package:task_list_app/service/task_service.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
-  TaskCubit() : super(TaskInitial());
-  TaskService service = TaskService();
+  final TaskService taskService;
 
-  void addTask({required Task taskName}) async {
+  TaskCubit({TaskService? taskService}) : taskService = taskService ?? TaskService(), super(TaskInitial());
+
+  Future<void> addTask({required Task taskName}) async {
     try {
-      await service.addTask(taskName: taskName);
+      await taskService.addTask(taskName: taskName);
       emit(
         state.copyWith(
           taskNames: [...state.taskNames, taskName],
@@ -24,7 +25,7 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> readTasks() async {
-    final List<Task> tasks = await service.readTasks();
+    final List<Task> tasks = await taskService.readTasks();
     emit(state.copyWith(
       taskNames: [...tasks],
     ));
