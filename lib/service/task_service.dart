@@ -28,7 +28,7 @@ class TaskService {
     return tasks;
   }
 
-  Future<void> removeTask({required Task taskName}) async {}
+  // Future<void> removeTask({required Task taskName}) async {} - functionality should be combined with completeTask
 
   Future<void> completeTask({required Task taskName}) async {}
 
