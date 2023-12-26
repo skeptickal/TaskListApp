@@ -58,7 +58,7 @@ void main() {
       },
     );
     testWidgets(
-      'Drawer Exists with Completed Task Button That Navigates',
+      'Drawer Exists, Completed Task Button Navigates',
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
@@ -72,6 +72,27 @@ void main() {
         ));
         await tester.dragFrom(
             tester.getTopLeft(find.byType(MaterialApp)), const Offset(300, 0));
+        await tester.pumpAndSettle();
+        final navFinder = find.byKey(const Key('CompletedTasksButton'));
+        await tester.tap(navFinder);
+        // Verify the app navigated (this means you can't use context.push())
+        verify(() => mockGoRouter.go('/completed_tasks')).called(1);
+      },
+    );
+    testWidgets(
+      'List Tiles Present',
+      (WidgetTester tester) async {
+        final MockTaskCubit mockTaskCubit = MockTaskCubit();
+        when(() => mockTaskCubit.state).thenReturn(
+          const TaskState(taskNames: [], completedTasks: []),
+        );
+        when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+        await tester.pumpWidget(Materializer(
+          mockCubits: [mockTaskCubit],
+          mockGoRouter: mockGoRouter,
+          child: const TaskList(),
+        ));
+        
         await tester.pumpAndSettle();
         final navFinder = find.byKey(const Key('CompletedTasksButton'));
         await tester.tap(navFinder);
