@@ -57,5 +57,27 @@ void main() {
         verify(() => mockGoRouter.go('/addtask')).called(1);
       },
     );
+    testWidgets(
+      'Drawer Exists with Completed Task Button That Navigates',
+      (WidgetTester tester) async {
+        final MockTaskCubit mockTaskCubit = MockTaskCubit();
+        when(() => mockTaskCubit.state).thenReturn(
+          const TaskState(taskNames: [], completedTasks: []),
+        );
+        when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+        await tester.pumpWidget(Materializer(
+          mockCubits: [mockTaskCubit],
+          mockGoRouter: mockGoRouter,
+          child: const TaskList(),
+        ));
+        await tester.dragFrom(
+            tester.getTopLeft(find.byType(MaterialApp)), const Offset(300, 0));
+        await tester.pumpAndSettle();
+        final navFinder = find.byKey(const Key('CompletedTasksButton'));
+        await tester.tap(navFinder);
+        // Verify the app navigated (this means you can't use context.push())
+        verify(() => mockGoRouter.go('/completed_tasks')).called(1);
+      },
+    );
   });
 }

@@ -47,6 +47,7 @@ class _TaskListState extends State<TaskList> {
             backgroundColor: Colors.black,
           ),
           drawer: Drawer(
+              key: const Key('Drawer'),
               backgroundColor: bgColor,
               child: ListView(
                 children: [
@@ -69,7 +70,8 @@ class _TaskListState extends State<TaskList> {
                     child: Card(
                       color: const Color.fromARGB(255, 85, 84, 84),
                       child: GestureDetector(
-                        onTap: () => context.push('/completed_tasks'),
+                        key: const Key('CompletedTasksButton'),
+                        onTap: () => context.go('/completed_tasks'),
                         child: const Padding(
                           padding: EdgeInsets.all(4.0),
                           child: ListTile(
