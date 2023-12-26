@@ -21,6 +21,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
       List<Widget> completedTasks = state.completedTasks.map(
         (taskName) {
           return ListTile(
+            key: const Key('completed tiles'),
             leading: Icon(
               Icons.task,
               color: iconColor,
