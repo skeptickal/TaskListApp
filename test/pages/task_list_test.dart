@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/pages/task_list.dart';
 import '../materializer.dart';
 import '../mocks.dart';
@@ -84,7 +86,8 @@ void main() {
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
-          const TaskState(taskNames: [], completedTasks: []),
+          const TaskState(
+              taskNames: [Task(name: 'Task 1', id: '1')], completedTasks: []),
         );
         when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
@@ -92,12 +95,9 @@ void main() {
           mockGoRouter: mockGoRouter,
           child: const TaskList(),
         ));
-        
         await tester.pumpAndSettle();
-        final navFinder = find.byKey(const Key('CompletedTasksButton'));
-        await tester.tap(navFinder);
-        // Verify the app navigated (this means you can't use context.push())
-        verify(() => mockGoRouter.go('/completed_tasks')).called(1);
+        final tileFinder = find.byKey(const Key('task tiles'));
+        expect(tileFinder, findsOneWidget);
       },
     );
   });

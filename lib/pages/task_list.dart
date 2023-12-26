@@ -20,6 +20,7 @@ class _TaskListState extends State<TaskList> {
         List<Widget> tasks = state.taskNames.map(
           (taskName) {
             return ListTile(
+              key: const Key('task tiles'),
               leading: Icon(
                 Icons.task,
                 color: iconColor,
