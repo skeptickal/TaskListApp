@@ -31,7 +31,8 @@ void main() {
     // JACKSON: We use our createBackendClientWithMockedResponse() function to mock out the Spring backend
     test('getData returns data on success', () async {
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 200);
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: responseBody, statusCode: 200);
       final dynamic result = await backendClient.getData(uri: '/example');
       expect(result, equals(responseBody));
     });
@@ -39,41 +40,31 @@ void main() {
     // JACKSON: We define our statusCode in a separate variable because we use it in the expect()
     test('getData returns an error message on failure', () async {
       const int statusCode = 404;
-      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: {'key': 'value'}, statusCode: statusCode);
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: {'key': 'value'}, statusCode: statusCode);
       final dynamic result = await backendClient.getData(uri: '/example');
       expect(result, equals('HTTP Request failed with status: $statusCode'));
     });
 
-  // JACKSON: I will leave these up to you!
-  //   test('postData returns data on success', () async {
-  //     final requestData = {'key': 'value'};
-  //     final responseData = {'responseKey': 'responseValue'};
+    test('postData returns data on success', () async {
+      const Map<String, String> responseBody = {'key': 'value'};
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: responseBody, statusCode: 200);
+      final dynamic result =
+          await backendClient.postData(uri: '/example', body: responseBody);
+      expect(result, equals(responseBody));
+    });
 
-  //     when(() => mockClient.get(Uri.parse('http://10.0.2.2:8080/tasks')))
-  //         .thenAnswer(
-  //             (_) async => http.Response(jsonEncode(responseData), 200));
-
-  //     final result =
-  //         await backendClient.postData(uri: '/example', body: requestData);
-
-  //     expect(result, equals(responseData));
-  //   });
-
-  //   test('postData returns an error message on failure', () async {
-  //     final requestData = {'key': 'value'};
-
-  //     when(() => mockClient.post(any(),
-  //         headers: any(named: 'headers'), body: any(named: 'body'))).thenAnswer(
-  //       (_) async => http.Response(
-  //           'Internal Server Error', HttpStatus.internalServerError),
-  //     );
-
-  //     final result =
-  //         await backendClient.postData(uri: '/example', body: requestData);
-
-  //     expect(
-  //         result, equals('Failed to execute Post Request. Status code: 500'));
-  //   });
-  // });
+    test('postData returns an error message on failure', () async {
+      const int statusCode = 400;
+      const Map<String, String> responseBody = {'key': 'value'};
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: responseBody, statusCode: statusCode);
+      final dynamic result = await backendClient
+          .postData(uri: '/example', body: responseBody);
+      print('Actual Result: $result');
+      expect(result,
+          equals('Failed to execute Post Request. Status code: $statusCode'));
+    });
   });
 }

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:task_list_app/constants/constants.dart';
 
@@ -26,10 +25,10 @@ class BackendClient {
     } catch (e) {
       print('Error during HTTPrequest $e');
       return 'Error during HTTP request: $e';
-    } finally {
-      // JACKSON: The finally block was added due to adding the httpClient rather than the one-off requests
-      httpClient.close();
-    }
+    } // } finally {
+    //   // JACKSON: The finally block was added due to adding the httpClient rather than the one-off requests
+    //   httpClient.close();
+    // }
   }
 
   Future<dynamic> postData({required String uri, dynamic body}) async {
@@ -40,18 +39,18 @@ class BackendClient {
         headers: headers,
         body: jsonEncode(body),
       );
-      if (response.statusCode == HttpStatus.created) {
+      if (response.statusCode == 200) {
         print('Post executed successfully');
         return jsonDecode(response.body);
       } else {
-        print(
-            'Failed to execute Post Request. Status code: ${response.statusCode}');
+        String errorMessage =
+            'Failed to execute Post Request. Status code: ${response.statusCode}';
+        print(errorMessage);
+        return errorMessage;
       }
     } catch (e) {
       print('Error during HTTP request: $e');
       rethrow;
-    } finally {
-      httpClient.close();
     }
   }
 

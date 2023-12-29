@@ -30,6 +30,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              key: const Key('Add a task text field'),
               controller: _addTask,
               decoration: const InputDecoration(
                 filled: true,
@@ -39,6 +40,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
           ),
           ElevatedButton.icon(
+              key: const Key('Add Task Button'),
               icon: const Icon(
                 Icons.add,
                 color: Colors.white,

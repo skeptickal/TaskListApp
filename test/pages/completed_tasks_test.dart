@@ -10,7 +10,7 @@ import '../mocks.dart';
 void main() {
   final MockGoRouter mockGoRouter = MockGoRouter();
 
-  group('Task List', () {
+  group('Completed Task List', () {
     // Non-`go_router` test
     testWidgets('completed tasks title is displayed',
         (WidgetTester tester) async {

@@ -8,7 +8,9 @@ part 'task_state.dart';
 class TaskCubit extends Cubit<TaskState> {
   final TaskService taskService;
 
-  TaskCubit({TaskService? taskService}) : taskService = taskService ?? TaskService(), super(TaskInitial());
+  TaskCubit({TaskService? taskService})
+      : taskService = taskService ?? TaskService(),
+        super(TaskInitial());
 
   Future<void> addTask({required Task taskName}) async {
     try {

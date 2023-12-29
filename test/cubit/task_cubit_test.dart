@@ -52,5 +52,22 @@ main() {
         const TaskState(taskNames: [], completedTasks: []),
       ],
     );
+
+    blocTest(
+      'readTasks updates state with the existing task list',
+      setUp: () {
+        when(() => mockTaskService.addTask(taskName: task)).thenAnswer(
+          (_) async => Future.value(),
+        );
+        when(() => mockTaskService.readTasks()).thenAnswer(
+          (_) async => Future.value([task]),
+        );
+      },
+      build: () => taskCubit,
+      act: (cubit) => cubit.readTasks(),
+      expect: () => <TaskState>[
+        TaskState(taskNames: [task], completedTasks: []),
+      ],
+    );
   });
 }
