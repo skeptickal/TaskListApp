@@ -33,7 +33,12 @@ class TaskCubit extends Cubit<TaskState> {
     ));
   }
 
-  void completeTask({required Task taskName}) {
+  Future<void> completeTask({required Task taskName}) async {
+    if (!state.taskNames.contains(taskName)) {
+      print('Task not found in taskNames list.');
+      return;
+    }
+
     List<Task> newCompletedTasks = [...state.completedTasks, taskName];
     List<Task> newTaskNames = state.taskNames..remove(taskName);
 
@@ -43,7 +48,12 @@ class TaskCubit extends Cubit<TaskState> {
     ));
   }
 
-  void deleteTask({required Task taskName}) {
+  Future<void> deleteTask({required Task taskName}) async {
+    if (!state.completedTasks.contains(taskName)) {
+      print('Task not found in completedTasks list.');
+      return;
+    }
+
     List<Task> newCompletedTasks = state.completedTasks..remove(taskName);
     emit(state.copyWith(
       taskNames: state.taskNames,
