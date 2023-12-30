@@ -27,7 +27,6 @@ void main() {
         child: const AddTaskScreen(),
       ));
 
-      // Do your test stuff
       final titleFinder = find.text('Add a Task');
       expect(titleFinder, findsOneWidget);
     });
@@ -36,8 +35,7 @@ void main() {
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
-          const TaskState(
-              taskNames: [], completedTasks: [Task(name: 'Task 1', id: '1')]),
+          const TaskState(taskNames: [], completedTasks: []),
         );
         when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
@@ -53,7 +51,6 @@ void main() {
     testWidgets(
       'Fully add task button is present AND navigates',
       (WidgetTester tester) async {
-        // Set up mock cubit(s) - This can be done in the setUp() if it's common to a group() of tests
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
           const TaskState(
