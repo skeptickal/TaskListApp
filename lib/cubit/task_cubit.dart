@@ -34,15 +34,20 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   void completeTask({required Task taskName}) {
-    emit(
-      state.copyWith(
-        completedTasks: [...state.completedTasks, taskName],
-      ),
-    );
-    emit(state.removeTask(taskName));
+    List<Task> newCompletedTasks = [...state.completedTasks, taskName];
+    List<Task> newTaskNames = state.taskNames..remove(taskName);
+
+    emit(state.copyWith(
+      taskNames: newTaskNames,
+      completedTasks: newCompletedTasks,
+    ));
   }
 
   void deleteTask({required Task taskName}) {
-    emit(state.deleteTask(taskName));
+    List<Task> newCompletedTasks = state.completedTasks..remove(taskName);
+    emit(state.copyWith(
+      taskNames: state.taskNames,
+      completedTasks: newCompletedTasks,
+    ));
   }
 }

@@ -15,32 +15,6 @@ class TaskState extends Equatable {
         taskNames: taskNames ?? this.taskNames,
         completedTasks: completedTasks ?? this.completedTasks);
   }
-
-  TaskState removeTask(Task taskNameToRemove) {
-    List<Task> newTaskNames = List.from(taskNames);
-    newTaskNames.remove(taskNameToRemove);
-    return TaskState(
-        taskNames: newTaskNames,
-        taskName: taskName,
-        completedTasks: completedTasks);
-  }
-
-// TODO: make into one cubit ^
-
-  TaskState completeTask({List<Task>? completedTasks}) {
-    return TaskState(
-        taskNames: taskNames,
-        completedTasks: completedTasks ?? this.completedTasks);
-  }
-
-  TaskState deleteTask(Task taskNameToRemove) {
-    List<Task> newCompletedTasks = List.from(completedTasks);
-    newCompletedTasks.remove(taskNameToRemove);
-    return TaskState(
-        taskNames: taskNames,
-        taskName: taskName,
-        completedTasks: newCompletedTasks);
-  }
 }
 
 final class TaskInitial extends TaskState {
