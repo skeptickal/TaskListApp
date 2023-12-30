@@ -39,9 +39,6 @@ main() {
           when(() => mockTaskService.completeTask(taskName: task)).thenAnswer(
             (_) async => Future.value(),
           );
-          when(() => mockTaskService.deleteTask(taskName: task)).thenAnswer(
-            (_) async => Future.value(),
-          );
         },
         build: () => taskCubit,
         act: (cubit) async {
