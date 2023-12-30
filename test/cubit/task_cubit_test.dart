@@ -9,7 +9,6 @@ main() {
   Task task = const Task(id: null, name: 'example task');
 
   group('Cubit Tests', () {
-    // JACKSON: I think this was the whole issue. 99% of the time, we don't want a mock of the class we are testing. The only other thing that needed fixing was the Mocktail when(). Based on the error, I bet you would have figured that out.
     late TaskCubit taskCubit;
     late MockTaskService mockTaskService;
 
@@ -21,7 +20,6 @@ main() {
     blocTest(
       'Add Task adds to the Incompleted Tasks Array',
       setUp: () {
-        // JACKSON: This bit is needed to hop over the line 15 of TaskCubit
         when(() => mockTaskService.addTask(taskName: task)).thenAnswer(
           (_) async => Future.value(),
         );
@@ -41,9 +39,12 @@ main() {
         );
       },
       build: () => taskCubit,
-      act: (cubit) => cubit.addTask(taskName: task).then((_) {
+      act: (cubit) async => await cubit.addTask(taskName: task).then((_) {
+        print('First State: ${cubit.state}');
         cubit.completeTask(taskName: task);
+        print('Second State: ${cubit.state}');
         cubit.deleteTask(taskName: task);
+        print('Third State: ${cubit.state}');
       }),
       skip: 1,
       expect: () => <TaskState>[
@@ -56,9 +57,6 @@ main() {
     blocTest(
       'readTasks updates state with the existing task list',
       setUp: () {
-        when(() => mockTaskService.addTask(taskName: task)).thenAnswer(
-          (_) async => Future.value(),
-        );
         when(() => mockTaskService.readTasks()).thenAnswer(
           (_) async => Future.value([task]),
         );
