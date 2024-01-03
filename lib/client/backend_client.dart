@@ -39,7 +39,7 @@ class BackendClient {
         headers: headers,
         body: jsonEncode(body),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Post executed successfully');
         return jsonDecode(response.body);
       } else {
@@ -62,7 +62,7 @@ class BackendClient {
         headers: headers,
         body: jsonEncode(body),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Put executed successfully');
         return jsonDecode(response.body);
       } else {

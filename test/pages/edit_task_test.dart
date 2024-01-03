@@ -17,17 +17,19 @@ void main() {
     when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
-    await tester.pumpWidget(Materializer(
-      mockCubits: [mockTaskCubit],
-      child: MaterialApp(
-        home: EditTask(
-          taskName: const Task(name: 'example task'),
-          onTaskUpdated: (updatedTask) {
-            mockTaskCubit.updateTask(updatedTask: updatedTask);
-          },
+    await tester.pumpWidget(
+      Materializer(
+        mockCubits: [mockTaskCubit],
+        child: Scaffold(
+          body: EditTask(
+            taskName: const Task(name: 'example task'),
+            onTaskUpdated: (updatedTask) {
+              mockTaskCubit.updateTask(updatedTask: updatedTask);
+            },
+          ),
         ),
       ),
-    ));
+    );
     await tester.pumpAndSettle();
 
     // Perform your tests

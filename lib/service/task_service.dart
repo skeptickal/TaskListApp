@@ -31,8 +31,7 @@ class TaskService {
   Future<void> editTask({required Task task}) async {
     try {
       await client.putData(
-        uri:
-            '$taskApiBase/${task.id}', // Assuming your API uses task id for updating
+        uri: '$taskApiBase/${task.id}',
         body: task.toJson(),
       );
     } catch (e) {

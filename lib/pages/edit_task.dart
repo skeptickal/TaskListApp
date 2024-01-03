@@ -55,9 +55,9 @@ class _EditTaskState extends State<EditTask> {
                 // Close the edit panel
                 Navigator.pop(context);
               },
-              child: Text(
+              child: const Text(
                 'Save',
-                style: TextStyle(color: iconColor, fontSize: 20),
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
             ),
           ],
