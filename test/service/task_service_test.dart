@@ -17,20 +17,20 @@ void main() {
   test('Reads Tasks', () async {
     when(() => testClient.getData(uri: any(named: 'uri')))
         .thenAnswer((invocation) => Future.value([
-              {'id': '1', 'name': 'example task'}
+              {'name': 'example task'}
             ]));
     List<Task> actual = await sut.readTasks();
-    List<Task> expected = [const Task(id: "1", name: "example task")];
+    List<Task> expected = [const Task(name: "example task")];
     expect(actual, expected);
   });
 
   test('Reads Tasks Negative', () async {
     when(() => testClient.getData(uri: any(named: 'uri')))
         .thenAnswer((invocation) => Future.value([
-              {'id': '2', 'name': 'example task'}
+              {'name': 'failed example task'}
             ]));
     List<Task> actual = await sut.readTasks();
-    List<Task> expected = [const Task(id: "1", name: "example task")];
+    List<Task> expected = [const Task(name: "example task")];
     expect(actual, isNot(equals(expected)));
   });
 
@@ -39,16 +39,14 @@ void main() {
             uri: any(named: 'uri'), body: any(named: 'body')))
         .thenAnswer((invocation) => Future.value('this is a test'));
 
-    expect(
-        () => sut.addTask(taskName: const Task(id: "1", name: "example task")),
+    expect(() => sut.addTask(taskName: const Task(name: "example task")),
         returnsNormally);
   });
 
   test('Add Task gets Error Message', () {
     when(() => testClient.postData(
         uri: any(named: 'uri'), body: any(named: 'body'))).thenThrow(Exception);
-    expect(
-        () => sut.addTask(taskName: const Task(id: "1", name: "example task")),
+    expect(() => sut.addTask(taskName: const Task(name: "example task")),
         throwsA(const TypeMatcher<Exception>()));
   });
 }

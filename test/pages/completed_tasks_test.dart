@@ -37,7 +37,7 @@ void main() {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
           const TaskState(
-              taskNames: [], completedTasks: [Task(name: 'Task 1', id: '1')]),
+              taskNames: [], completedTasks: [Task(name: 'Task 1')]),
         );
         when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(

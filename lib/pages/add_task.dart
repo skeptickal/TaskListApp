@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
@@ -18,6 +19,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 48, 48, 48),
       appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(
+            Icons.home,
+            color: iconColor,
+          ),
+          onPressed: () => context.go('/'),
+        ),
         title: const Text(
           'Add a Task',
           style: TextStyle(letterSpacing: 2.0, color: Colors.white),
@@ -48,7 +56,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               onPressed: () {
                 context
                     .read<TaskCubit>()
-                    .addTask(taskName: Task(id: null, name: _addTask.text));
+                    .addTask(taskName: Task(name: _addTask.text));
                 _addTask.clear();
                 context.go('/');
               },

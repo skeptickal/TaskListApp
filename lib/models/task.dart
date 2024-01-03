@@ -1,20 +1,24 @@
 import 'package:equatable/equatable.dart';
 
 class Task extends Equatable {
-  final String? id;
+  final int? id;
   final String name;
 
-  const Task({required this.id, required this.name});
+  const Task({this.id, required this.name});
 
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
-      id: json['id'].toString(),
+      id: json['id']
+          as int?, // Check if 'id' is present before converting to String
       name: json['name'].toString(),
     );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {'id': id, 'name': name};
+    final Map<String, dynamic> data = {'name': name};
+    if (id != null) {
+      data['id'] = id.toString();
+    }
     return data;
   }
 

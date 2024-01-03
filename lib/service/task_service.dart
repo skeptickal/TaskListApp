@@ -28,6 +28,19 @@ class TaskService {
     return tasks;
   }
 
+  Future<void> editTask({required Task task}) async {
+    try {
+      await client.putData(
+        uri:
+            '$taskApiBase/${task.id}', // Assuming your API uses task id for updating
+        body: task.toJson(),
+      );
+    } catch (e) {
+      print('Error editing task: $e');
+      throw Exception('Edit Task Failed');
+    }
+  }
+
   Future<void> completeTask({required Task taskName}) async {}
 
   Future<void> deleteTask({required Task taskName}) async {}

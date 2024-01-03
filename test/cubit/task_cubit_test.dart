@@ -7,6 +7,7 @@ import '../mocks.dart';
 
 main() {
   Task task = const Task(id: null, name: 'example task');
+  Task newTask = const Task(name: 'New Task');
 
   group('Cubit Tests', () {
     late TaskCubit taskCubit;
@@ -89,9 +90,34 @@ main() {
       build: () => taskCubit,
       act: (cubit) => cubit.readTasks(),
       expect: () => <TaskState>[
-        TaskState(taskNames: [task], completedTasks: []),
+        TaskState(taskNames: [task], completedTasks: const []),
       ],
     );
+
+    blocTest(
+      'editTasks updates state with the new task',
+      setUp: () {
+        when(() => mockTaskService.addTask(taskName: task)).thenAnswer(
+            (_) async => Future.value(),
+          );
+        when(() => mockTaskService.editTask(task: newTask)).thenAnswer(
+          (_) async => Future.value([newTask]),
+        );
+      },
+      build: () => taskCubit,
+      act: (cubit) async {
+        await cubit.addTask(taskName: task).then((_) async {
+          print('First State: ${cubit.state}');
+          await cubit.updateTask(updatedTask: newTask);
+          print('Second State: ${cubit.state}');
+        });
+      },
+      skip: 1,
+      expect: () => <TaskState>[
+        TaskState(taskNames: [newTask], completedTasks: []),
+      ],
+    );
+
     //   blocTest('Complete Task and Delete Task adds to the Completed Tasks Array',
     //       setUp: () {
     //         when(() => mockTaskService.addTask(taskName: task)).thenAnswer(

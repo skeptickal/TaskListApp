@@ -60,4 +60,28 @@ class TaskCubit extends Cubit<TaskState> {
       completedTasks: newCompletedTasks,
     ));
   }
+
+  Future<void> updateTask({required Task updatedTask}) async {
+    try {
+      await taskService.editTask(task: updatedTask);
+
+      // Find the index of the updated task in the taskNames list
+      int indexOfUpdatedTask =
+          state.taskNames.indexWhere((task) => task.id == updatedTask.id);
+
+      if (indexOfUpdatedTask != -1) {
+        List<Task> updatedTaskNames = List.from(state.taskNames);
+        updatedTaskNames[indexOfUpdatedTask] = updatedTask;
+
+        emit(state.copyWith(
+          taskNames: updatedTaskNames,
+          completedTasks: state.completedTasks,
+        ));
+      } else {
+        print('Task not found in taskNames list.');
+      }
+    } catch (e) {
+      print('Error updating task: $e');
+    }
+  }
 }

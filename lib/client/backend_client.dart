@@ -54,8 +54,27 @@ class BackendClient {
     }
   }
 
-  void putData(String data) {
-    //remove from current tasks, add to completed tasks list @PutRequest, refactor cubit later
+  Future<dynamic> putData({required String uri, dynamic body}) async {
+    try {
+      final Uri url = Uri.http(localhost, uri);
+      final response = await httpClient.put(
+        url,
+        headers: headers,
+        body: jsonEncode(body),
+      );
+      if (response.statusCode == 200) {
+        print('Put executed successfully');
+        return jsonDecode(response.body);
+      } else {
+        String errorMessage =
+            'Failed to execute Put Request. Status code: ${response.statusCode}';
+        print(errorMessage);
+        return errorMessage;
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      rethrow;
+    }
   }
 
   //void deleteData(String data) - remove completely from API and view

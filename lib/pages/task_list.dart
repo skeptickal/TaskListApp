@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
+import 'package:task_list_app/pages/edit_task.dart';
 
 class TaskList extends StatefulWidget {
   const TaskList({super.key});
@@ -17,13 +19,35 @@ class _TaskListState extends State<TaskList> {
     context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
+        void showEditPanel(BuildContext context, Task taskName) {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Container(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
+                  color: bgColor,
+                  child: EditTask(
+                      taskName: taskName,
+                      onTaskUpdated: (updatedTask) {
+                        context
+                            .read<TaskCubit>()
+                            .updateTask(updatedTask: updatedTask);
+                      }),
+                );
+              });
+        }
+
         List<Widget> tasks = state.taskNames.map(
           (taskName) {
             return ListTile(
               key: const Key('task tiles'),
-              leading: Icon(
-                Icons.task,
-                color: iconColor,
+              leading: GestureDetector(
+                onTap: () => showEditPanel(context, taskName),
+                child: Icon(
+                  Icons.edit,
+                  color: iconColor,
+                ),
               ),
               title: Text(
                 taskName.name,
@@ -33,13 +57,14 @@ class _TaskListState extends State<TaskList> {
                   onTap: () {
                     context.read<TaskCubit>().completeTask(taskName: taskName);
                   },
-                  child: Icon(Icons.delete, color: iconColor)),
+                  child: Icon(Icons.remove_circle, color: iconColor)),
             );
           },
         ).toList();
         return Scaffold(
           backgroundColor: bgColor,
           appBar: AppBar(
+            iconTheme: IconThemeData(color: iconColor),
             title: const Text(
               'Task List',
               style: TextStyle(color: Colors.white),
