@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
@@ -12,11 +13,6 @@ class CompletedTaskScreen extends StatefulWidget {
 }
 
 class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
-  Color bgColor = const Color.fromARGB(255, 48, 48, 48);
-  TextStyle tilesText =
-      const TextStyle(color: Colors.white, letterSpacing: 2.0);
-  Color iconColor = const Color.fromARGB(255, 173, 173, 173);
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
@@ -50,9 +46,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
             onPressed: () => context.go('/'),
           ),
           backgroundColor: Colors.black,
-          title: const Text(
+          title: Text(
             'Completed Tasks',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: white),
           ),
           centerTitle: true,
         ),

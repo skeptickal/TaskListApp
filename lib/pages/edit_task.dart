@@ -32,14 +32,14 @@ class _EditTaskState extends State<EditTask> {
               child: TextField(
                 style: TextStyle(color: iconColor),
                 controller: _controller,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                     labelText: 'Edit Task Name',
-                    labelStyle: TextStyle(color: Colors.white, fontSize: 20)),
+                    labelStyle: TextStyle(color: white, fontSize: 20)),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.black,
+                backgroundColor: black,
               ),
               onPressed: () {
                 // Get the updated taskName from the TextField
@@ -55,9 +55,9 @@ class _EditTaskState extends State<EditTask> {
                 // Close the edit panel
                 Navigator.pop(context);
               },
-              child: const Text(
+              child: Text(
                 'Save',
-                style: TextStyle(color: Colors.white, fontSize: 20),
+                style: TextStyle(color: white, fontSize: 20),
               ),
             ),
           ],

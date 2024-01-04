@@ -44,9 +44,9 @@ class _TaskListState extends State<TaskList> {
           backgroundColor: bgColor,
           appBar: AppBar(
             iconTheme: IconThemeData(color: iconColor),
-            title: const Text(
+            title: Text(
               'Task List',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: white),
             ),
             centerTitle: true,
             backgroundColor: Colors.black,
@@ -56,19 +56,18 @@ class _TaskListState extends State<TaskList> {
               backgroundColor: bgColor,
               child: ListView(
                 children: [
-                  const UserAccountsDrawerHeader(
+                  UserAccountsDrawerHeader(
                     margin: EdgeInsets.all(4),
-                    accountName:
-                        Text('Task Manager', style: TextStyle(fontSize: 18)),
+                    accountName: const Text('Task Manager',
+                        style: TextStyle(fontSize: 18)),
                     accountEmail:
-                        Text('Options', style: TextStyle(fontSize: 18)),
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 129, 128, 128)),
+                        const Text('Options', style: TextStyle(fontSize: 18)),
+                    decoration: BoxDecoration(color: drawerHeaderColor),
                     currentAccountPicture: CircleAvatar(
-                      backgroundColor: Colors.black,
-                      child: Icon(Icons.person, size: 40, color: Colors.white),
+                      backgroundColor: black,
+                      child: Icon(Icons.person, size: 40, color: white),
                     ),
-                    arrowColor: Colors.black,
+                    arrowColor: black,
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(4, 6, 4, 4),
@@ -77,13 +76,12 @@ class _TaskListState extends State<TaskList> {
                       child: GestureDetector(
                         key: const Key('CompletedTasksButton'),
                         onTap: () => context.go('/completed_tasks'),
-                        child: const Padding(
-                          padding: EdgeInsets.all(4.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4.0),
                           child: ListTile(
-                            leading: Icon(Icons.task_alt, color: Colors.white),
+                            leading: Icon(Icons.task_alt, color: white),
                             title: Text('View Completed Tasks',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18)),
+                                style: TextStyle(color: white, fontSize: 18)),
                           ),
                         ),
                       ),
@@ -102,7 +100,7 @@ class _TaskListState extends State<TaskList> {
             onPressed: () {
               context.go('/addtask');
             },
-            backgroundColor: Colors.black,
+            backgroundColor: black,
             child: Icon(Icons.add, color: iconColor),
           ),
         );

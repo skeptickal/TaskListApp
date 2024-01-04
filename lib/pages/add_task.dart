@@ -17,7 +17,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 48, 48, 48),
+      backgroundColor: bgColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(
@@ -31,7 +31,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           style: TextStyle(letterSpacing: 2.0, color: Colors.white),
         ),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        backgroundColor: black,
       ),
       body: Column(
         children: [
@@ -40,18 +40,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             child: TextField(
               key: const Key('Add a task text field'),
               controller: _addTask,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 filled: true,
-                fillColor: Color.fromARGB(255, 255, 255, 255),
+                fillColor: white,
                 hintText: 'Add a Task here',
               ),
             ),
           ),
           ElevatedButton.icon(
               key: const Key('Add Task Button'),
-              icon: const Icon(
+              icon: Icon(
                 Icons.add,
-                color: Colors.white,
+                color: white,
               ),
               onPressed: () {
                 context
@@ -60,9 +60,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 _addTask.clear();
                 context.go('/');
               },
-              label: const Text('Add Task',
-                  style: TextStyle(letterSpacing: 2.0, color: Colors.white)),
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.black)),
+              label:  Text('Add Task',
+                  style: TextStyle(letterSpacing: 2.0, color: white)),
+              style: ElevatedButton.styleFrom(backgroundColor: black)),
         ],
       ),
     );
