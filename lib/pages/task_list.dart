@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
+import 'package:task_list_app/resource/bottom_nav.dart';
 import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
@@ -41,6 +41,7 @@ class _TaskListState extends State<TaskList> {
           },
         ).toList();
         return Scaffold(
+          bottomNavigationBar: const BottomNav(),
           backgroundColor: bgColor,
           appBar: AppBar(
             iconTheme: IconThemeData(color: iconColor),
@@ -51,57 +52,11 @@ class _TaskListState extends State<TaskList> {
             centerTitle: true,
             backgroundColor: Colors.black,
           ),
-          drawer: Drawer(
-              key: const Key('Drawer'),
-              backgroundColor: bgColor,
-              child: ListView(
-                children: [
-                  UserAccountsDrawerHeader(
-                    margin: EdgeInsets.all(4),
-                    accountName: const Text('Task Manager',
-                        style: TextStyle(fontSize: 18)),
-                    accountEmail:
-                        const Text('Options', style: TextStyle(fontSize: 18)),
-                    decoration: BoxDecoration(color: drawerHeaderColor),
-                    currentAccountPicture: CircleAvatar(
-                      backgroundColor: black,
-                      child: Icon(Icons.person, size: 40, color: white),
-                    ),
-                    arrowColor: black,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(4, 6, 4, 4),
-                    child: Card(
-                      color: const Color.fromARGB(255, 85, 84, 84),
-                      child: GestureDetector(
-                        key: const Key('CompletedTasksButton'),
-                        onTap: () => context.go('/completed_tasks'),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: ListTile(
-                            leading: Icon(Icons.task_alt, color: white),
-                            title: Text('View Completed Tasks',
-                                style: TextStyle(color: white, fontSize: 18)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )),
           body: ListView.builder(
             itemCount: tasks.length,
             itemBuilder: (context, index) {
               return tasks[index];
             },
-          ),
-          floatingActionButton: FloatingActionButton(
-            key: const Key('taskAdderFloatingButton'),
-            onPressed: () {
-              context.go('/addtask');
-            },
-            backgroundColor: black,
-            child: Icon(Icons.add, color: iconColor),
           ),
         );
       },

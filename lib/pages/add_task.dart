@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:task_list_app/resource/bottom_nav.dart';
 import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
@@ -17,18 +18,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const BottomNav(),
       backgroundColor: bgColor,
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.home,
-            color: iconColor,
-          ),
-          onPressed: () => context.go('/'),
-        ),
-        title: const Text(
+        title: Text(
           'Add a Task',
-          style: TextStyle(letterSpacing: 2.0, color: Colors.white),
+          style: TextStyle(letterSpacing: 2.0, color: white),
         ),
         centerTitle: true,
         backgroundColor: black,
@@ -60,7 +55,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 _addTask.clear();
                 context.go('/');
               },
-              label:  Text('Add Task',
+              label: Text('Add Task',
                   style: TextStyle(letterSpacing: 2.0, color: white)),
               style: ElevatedButton.styleFrom(backgroundColor: black)),
         ],

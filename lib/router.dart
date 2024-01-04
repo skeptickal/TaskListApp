@@ -13,7 +13,7 @@ GoRouter router({String initialLocation = '/'}) => GoRouter(
           },
         ),
         GoRoute(
-          path: '/addtask',
+          path: '/add_task',
           builder: (BuildContext context, GoRouterState state) {
             return const AddTaskScreen();
           },
