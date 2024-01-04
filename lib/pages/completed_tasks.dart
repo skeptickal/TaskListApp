@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
   const CompletedTaskScreen({super.key});
@@ -23,18 +24,16 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         (taskName) {
           return ListTile(
             key: const Key('completed tiles'),
-            leading: Icon(
-              Icons.task,
-              color: iconColor,
+            leading: const Icon(
+              Icons.check,
+              color: Colors.green,
             ),
             title: Text(
               taskName.name,
               style: tilesText,
             ),
             trailing: GestureDetector(
-                onTap: () {
-                  context.read<TaskCubit>().deleteTask(taskName: taskName);
-                },
+                onTap: () => _onTapTrashIcon(taskName),
                 child: Icon(Icons.delete, color: iconColor)),
           );
         },
@@ -65,5 +64,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         ),
       );
     });
+  }
+
+  void _onTapTrashIcon(Task taskName) {
+    context.read<TaskCubit>().deleteTask(taskName: taskName);
   }
 }

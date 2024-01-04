@@ -36,7 +36,7 @@ class _TaskListState extends State<TaskList> {
               ),
               trailing: GestureDetector(
                   onTap: () => _onTapCompleteIcon(taskName),
-                  child: Icon(Icons.remove_circle, color: iconColor)),
+                  child: Icon(Icons.remove_circle_outline, color: iconColor)),
             );
           },
         ).toList();
