@@ -60,7 +60,7 @@ class BackendClient {
         headers: headers,
         body: jsonEncode(body),
       );
-      if (response.statusCode == HttpStatus.ok) {
+      if (response.statusCode == HttpStatus.created) {
         print('Put executed successfully');
         return jsonDecode(response.body);
       } else {

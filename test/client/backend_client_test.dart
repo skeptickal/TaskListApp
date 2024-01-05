@@ -70,7 +70,7 @@ void main() {
     test('putData returns data on success', () async {
       const Map<String, String> responseBody = {'key': 'value'};
       BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 200);
+          responseBody: responseBody, statusCode: 201);
       final dynamic result =
           await backendClient.putData(uri: '/example', body: responseBody);
       print('Actual Result: $result');
