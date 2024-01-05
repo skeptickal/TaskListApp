@@ -56,7 +56,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 context.go('/');
               },
               label: Text('Add Task',
-                  style: TextStyle(letterSpacing: 2.0, color: white)),
+                  style: TextStyle(
+                    letterSpacing: 2.0,
+                    color: white,
+                  )),
               style: ElevatedButton.styleFrom(backgroundColor: black)),
         ],
       ),

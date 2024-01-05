@@ -30,6 +30,7 @@ void main() {
       final titleFinder = find.text('Add a Task');
       expect(titleFinder, findsOneWidget);
     });
+
     testWidgets(
       'Text Field Present',
       (WidgetTester tester) async {
@@ -48,13 +49,13 @@ void main() {
         expect(tileFinder, findsOneWidget);
       },
     );
+
     testWidgets(
-      'Fully add task button is present AND navigates',
+      'Fully add task button is present',
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
-          const TaskState(
-              tasks: [Task(id: null, name: 'example')]),
+          const TaskState(tasks: [Task(id: null, name: 'example')]),
         );
         when(() => mockTaskCubit.readTasks())
             .thenAnswer((_) => Future.value([task]));
@@ -69,9 +70,6 @@ void main() {
         // Do everything you need to make the app navigate
         final titleFinder = find.byKey(const Key('Add Task Button'));
         expect(titleFinder, findsOneWidget);
-        // await tester.tap(titleFinder);
-        // Verify the app navigated (this means you can't use context.push())
-        // verify(() => mockGoRouter.go('/')).called(1);
       },
     );
   });

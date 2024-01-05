@@ -81,7 +81,6 @@ class _TaskListState extends State<TaskList> {
         });
   }
 
-  void _onTapCompleteIcon(Task task) {
-    context.read<TaskCubit>().completeTask(task: task);
-  }
+  void _onTapCompleteIcon(Task task) =>
+      context.read<TaskCubit>().completeTask(task: task);
 }

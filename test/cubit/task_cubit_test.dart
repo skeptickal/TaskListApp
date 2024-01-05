@@ -53,32 +53,34 @@ main() {
         expect: () => [
               TaskState(tasks: [task]),
             ]);
-    blocTest('Delete Task removes from the Completed Tasks Array',
-        setUp: () {
-          when(() => mockTaskService.addTask(task: task)).thenAnswer(
-            (_) async => Future.value(),
-          );
-          when(() => mockTaskService.completeTask(task: task)).thenAnswer(
-            (_) async => Future.value(),
-          );
-          when(() => mockTaskService.deleteTask(task: task)).thenAnswer(
-            (_) async => Future.value(),
-          );
-        },
-        build: () => taskCubit,
-        act: (cubit) async {
-          await cubit.addTask(task: task).then((_) async {
-            print('First State: ${cubit.state}');
-            await cubit.completeTask(task: task);
-            print('Second State: ${cubit.state}');
-            await cubit.deleteTask(task: task);
-            print('Third State: ${cubit.state}');
-          });
-        },
-        skip: 0,
-        expect: () => [
-              TaskState(tasks: [task]),
-            ]);
+    blocTest(
+      'Delete Task removes from the Completed Tasks Array',
+      setUp: () {
+        when(() => mockTaskService.addTask(task: task)).thenAnswer(
+          (_) async => Future.value(),
+        );
+        when(() => mockTaskService.completeTask(task: task)).thenAnswer(
+          (_) async => Future.value(),
+        );
+        when(() => mockTaskService.deleteTask(task: task)).thenAnswer(
+          (_) async => Future.value(),
+        );
+      },
+      build: () => taskCubit,
+      act: (cubit) async {
+        await cubit.addTask(task: task).then((_) async {
+          print('First State: ${cubit.state}');
+          await cubit.completeTask(task: task);
+          print('Second State: ${cubit.state}');
+          await cubit.deleteTask(task: task);
+          print('Third State: ${cubit.state}');
+        });
+      },
+      skip: 0,
+      expect: () => [
+        TaskState(tasks: [task])
+      ],
+    );
 
     blocTest(
       'readTasks updates state with the existing task list',
@@ -90,7 +92,7 @@ main() {
       build: () => taskCubit,
       act: (cubit) => cubit.readTasks(),
       expect: () => <TaskState>[
-        TaskState(tasks: [task]),
+        TaskState(tasks: [task])
       ],
     );
 

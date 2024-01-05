@@ -9,7 +9,7 @@ class Task extends Equatable {
   factory Task.fromJson(Map<String, dynamic> json) {
     return Task(
       id: json['id']
-          as int?, // Check if 'id' is present before converting to String
+          as int?, // Check if 'id' is present before converting to int?
       name: json['name'].toString(),
     );
   }
