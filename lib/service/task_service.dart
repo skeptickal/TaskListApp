@@ -8,11 +8,11 @@ class TaskService {
 
   TaskService({BackendClient? client}) : client = client ?? BackendClient();
 
-  Future<void> addTask({required Task taskName}) async {
+  Future<void> addTask({required Task task}) async {
     try {
       await client.postData(
         uri: taskApiBase,
-        body: taskName.toJson(),
+        body: task.toJson(),
       );
     } catch (e) {
       print('Error adding task: $e');
@@ -40,7 +40,7 @@ class TaskService {
     }
   }
 
-  Future<void> completeTask({required Task taskName}) async {}
+  Future<void> completeTask({required Task task}) async {}
 
-  Future<void> deleteTask({required Task taskName}) async {}
+  Future<void> deleteTask({required Task task}) async {}
 }

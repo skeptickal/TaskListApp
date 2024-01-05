@@ -12,7 +12,7 @@ void main() {
     // Set up mock cubit(s)
     final MockTaskCubit mockTaskCubit = MockTaskCubit();
     when(() => mockTaskCubit.state).thenReturn(
-      const TaskState(taskNames: [], completedTasks: []),
+      const TaskState(tasks: []),
     );
     when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
 
@@ -39,7 +39,7 @@ void main() {
     // Set up mock cubit(s)
     final MockTaskCubit mockTaskCubit = MockTaskCubit();
     when(() => mockTaskCubit.state).thenReturn(
-      const TaskState(taskNames: [], completedTasks: []),
+      const TaskState(tasks: []),
     );
     when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
 
@@ -66,7 +66,7 @@ void main() {
     // Set up mock cubit(s)
     final MockTaskCubit mockTaskCubit = MockTaskCubit();
     when(() => mockTaskCubit.state).thenReturn(
-      const TaskState(taskNames: [], completedTasks: []),
+      const TaskState(tasks: []),
     );
     when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
 

@@ -19,23 +19,23 @@ class _TaskListState extends State<TaskList> {
     context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
-        List<Widget> tasks = state.taskNames.map(
-          (taskName) {
+        List<Widget> tasks = state.tasks.map(
+          (task) {
             return ListTile(
               key: const Key('task tiles'),
               leading: GestureDetector(
-                onTap: () => _showEditPanel(context, taskName),
+                onTap: () => _showEditPanel(context, task),
                 child: Icon(
                   Icons.edit,
                   color: iconColor,
                 ),
               ),
               title: Text(
-                taskName.name,
+                task.name,
                 style: tilesText,
               ),
               trailing: GestureDetector(
-                  onTap: () => _onTapCompleteIcon(taskName),
+                  onTap: () => _onTapCompleteIcon(task),
                   child: Icon(Icons.remove_circle_outline, color: iconColor)),
             );
           },
@@ -63,7 +63,7 @@ class _TaskListState extends State<TaskList> {
     );
   }
 
-  void _showEditPanel(BuildContext context, Task taskName) {
+  void _showEditPanel(BuildContext context, Task task) {
     showModalBottomSheet(
         context: context,
         builder: (context) {
@@ -71,7 +71,7 @@ class _TaskListState extends State<TaskList> {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
             color: bgColor,
             child: EditTask(
-                taskName: taskName,
+                task: task,
                 onTaskUpdated: (updatedTask) {
                   context
                       .read<TaskCubit>()
@@ -81,7 +81,7 @@ class _TaskListState extends State<TaskList> {
         });
   }
 
-  void _onTapCompleteIcon(Task taskName) {
-    context.read<TaskCubit>().completeTask(taskName: taskName);
+  void _onTapCompleteIcon(Task task) {
+    context.read<TaskCubit>().completeTask(task: task);
   }
 }

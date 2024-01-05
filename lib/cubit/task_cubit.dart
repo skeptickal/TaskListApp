@@ -12,13 +12,12 @@ class TaskCubit extends Cubit<TaskState> {
       : taskService = taskService ?? TaskService(),
         super(TaskInitial());
 
-  Future<void> addTask({required Task taskName}) async {
+  Future<void> addTask({required Task task}) async {
     try {
-      await taskService.addTask(taskName: taskName);
+      await taskService.addTask(task: task);
       emit(
         state.copyWith(
-          taskNames: [...state.taskNames, taskName],
-          completedTasks: state.completedTasks,
+          tasks: [...state.tasks, task],
         ),
       );
     } catch (e) {
@@ -29,56 +28,31 @@ class TaskCubit extends Cubit<TaskState> {
   Future<void> readTasks() async {
     final List<Task> tasks = await taskService.readTasks();
     emit(state.copyWith(
-      taskNames: [...tasks],
+      tasks: [...tasks],
     ));
   }
 
-  Future<void> completeTask({required Task taskName}) async {
-    if (!state.taskNames.contains(taskName)) {
-      print('Task not found in taskNames list.');
-      return;
-    }
+  Future<void> completeTask({required Task task}) async {}
 
-    List<Task> newCompletedTasks = [...state.completedTasks, taskName];
-    List<Task> newTaskNames = state.taskNames..remove(taskName);
-
-    emit(state.copyWith(
-      taskNames: newTaskNames,
-      completedTasks: newCompletedTasks,
-    ));
-  }
-
-  Future<void> deleteTask({required Task taskName}) async {
-    if (!state.completedTasks.contains(taskName)) {
-      print('Task not found in completedTasks list.');
-      return;
-    }
-
-    List<Task> newCompletedTasks = state.completedTasks..remove(taskName);
-    emit(state.copyWith(
-      taskNames: state.taskNames,
-      completedTasks: newCompletedTasks,
-    ));
-  }
+  Future<void> deleteTask({required Task task}) async {}
 
   Future<void> updateTask({required Task updatedTask}) async {
     try {
       await taskService.editTask(task: updatedTask);
 
-      // Find the index of the updated task in the taskNames list
+      // Find the index of the updated task in the tasks list
       int indexOfUpdatedTask =
-          state.taskNames.indexWhere((task) => task.id == updatedTask.id);
+          state.tasks.indexWhere((task) => task.id == updatedTask.id);
 
       if (indexOfUpdatedTask != -1) {
-        List<Task> updatedTaskNames = List.from(state.taskNames);
+        List<Task> updatedTaskNames = List.from(state.tasks);
         updatedTaskNames[indexOfUpdatedTask] = updatedTask;
 
         emit(state.copyWith(
-          taskNames: updatedTaskNames,
-          completedTasks: state.completedTasks,
+          tasks: updatedTaskNames,
         ));
       } else {
-        print('Task not found in taskNames list.');
+        print('Task not found in tasks list.');
       }
     } catch (e) {
       print('Error updating task: $e');

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/models/task.dart';
 
 class EditTask extends StatefulWidget {
-  final Task taskName;
+  final Task task;
   final Function(Task) onTaskUpdated;
-  const EditTask(
-      {super.key, required this.taskName, required this.onTaskUpdated});
+  const EditTask({super.key, required this.task, required this.onTaskUpdated});
 
   @override
   State<EditTask> createState() => _EditTaskState();
@@ -17,7 +17,7 @@ class _EditTaskState extends State<EditTask> {
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController(text: widget.taskName.name);
+    _controller = TextEditingController(text: widget.task.name);
   }
 
   @override
@@ -42,18 +42,18 @@ class _EditTaskState extends State<EditTask> {
                 backgroundColor: black,
               ),
               onPressed: () {
-                // Get the updated taskName from the TextField
+                // Get the updated task from the TextField
                 final String updatedTaskName = _controller.text;
 
                 // Create a new TaskName object with the updated name
                 final Task updatedTask =
-                    Task(id: widget.taskName.id, name: updatedTaskName);
+                    Task(id: widget.task.id, name: updatedTaskName);
 
-                // Call the callback function to return the updated taskName
+                // Call the callback function to return the updated task
                 widget.onTaskUpdated(updatedTask);
 
                 // Close the edit panel
-                Navigator.pop(context);
+                context.pop(context);
               },
               child: Text(
                 'Save',

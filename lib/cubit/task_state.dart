@@ -2,25 +2,26 @@ part of 'task_cubit.dart';
 
 @immutable
 class TaskState extends Equatable {
-  final List<Task> taskNames;
-  final Task? taskName;
-  final List<Task> completedTasks;
-  @override
-  List<Object?> get props => [taskName, taskNames, completedTasks];
-  const TaskState(
-      {required this.taskNames, this.taskName, required this.completedTasks});
+  final List<Task> tasks;
+  final Task? task;
 
-  TaskState copyWith({List<Task>? taskNames, List<Task>? completedTasks}) {
+  @override
+  List<Object?> get props => [task, tasks];
+  const TaskState({
+    required this.tasks,
+    this.task,
+  });
+
+  TaskState copyWith({List<Task>? tasks}) {
     return TaskState(
-        taskNames: taskNames ?? this.taskNames,
-        completedTasks: completedTasks ?? this.completedTasks);
+      tasks: tasks ?? this.tasks,
+    );
   }
 }
 
 final class TaskInitial extends TaskState {
   TaskInitial()
       : super(
-          taskNames: [],
-          completedTasks: [],
+          tasks: [],
         );
 }

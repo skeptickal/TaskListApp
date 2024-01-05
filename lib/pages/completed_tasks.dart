@@ -15,9 +15,10 @@ class CompletedTaskScreen extends StatefulWidget {
 class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
   @override
   Widget build(BuildContext context) {
+    context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
-      List<Widget> completedTasks = state.completedTasks.map(
-        (taskName) {
+      List<Widget> completedTasks = state.tasks.map(
+        (task) {
           return ListTile(
             key: const Key('completed tiles'),
             leading: const Icon(
@@ -25,11 +26,11 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               color: Colors.green,
             ),
             title: Text(
-              taskName.name,
+              task.name,
               style: tilesText,
             ),
             trailing: GestureDetector(
-                onTap: () => _onTapTrashIcon(taskName),
+                onTap: () => _onTapTrashIcon(task),
                 child: Icon(Icons.delete, color: iconColor)),
           );
         },
@@ -56,7 +57,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
     });
   }
 
-  void _onTapTrashIcon(Task taskName) {
-    context.read<TaskCubit>().deleteTask(taskName: taskName);
+  void _onTapTrashIcon(Task task) {
+    context.read<TaskCubit>().deleteTask(task: task);
   }
 }

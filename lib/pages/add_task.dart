@@ -51,7 +51,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               onPressed: () {
                 context
                     .read<TaskCubit>()
-                    .addTask(taskName: Task(name: _addTask.text));
+                    .addTask(task: Task(name: _addTask.text));
                 _addTask.clear();
                 context.go('/');
               },

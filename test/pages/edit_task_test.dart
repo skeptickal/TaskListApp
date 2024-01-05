@@ -12,7 +12,7 @@ void main() {
     // Set up mock cubit(s)
     final MockTaskCubit mockTaskCubit = MockTaskCubit();
     when(() => mockTaskCubit.state).thenReturn(
-      const TaskState(taskNames: [], completedTasks: []),
+      const TaskState(tasks: []),
     );
     when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
 
@@ -22,7 +22,7 @@ void main() {
         mockCubits: [mockTaskCubit],
         child: Scaffold(
           body: EditTask(
-            taskName: const Task(name: 'example task'),
+            task: const Task(name: 'example task'),
             onTaskUpdated: (updatedTask) {
               mockTaskCubit.updateTask(updatedTask: updatedTask);
             },

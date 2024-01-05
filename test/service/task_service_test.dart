@@ -39,14 +39,14 @@ void main() {
             uri: any(named: 'uri'), body: any(named: 'body')))
         .thenAnswer((invocation) => Future.value('this is a test'));
 
-    expect(() => sut.addTask(taskName: const Task(name: "example task")),
+    expect(() => sut.addTask(task: const Task(name: "example task")),
         returnsNormally);
   });
 
   test('Add Task gets Error Message', () {
     when(() => testClient.postData(
         uri: any(named: 'uri'), body: any(named: 'body'))).thenThrow(Exception);
-    expect(() => sut.addTask(taskName: const Task(name: "example task")),
+    expect(() => sut.addTask(task: const Task(name: "example task")),
         throwsA(const TypeMatcher<Exception>()));
   });
 }
