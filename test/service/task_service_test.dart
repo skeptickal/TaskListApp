@@ -49,4 +49,13 @@ void main() {
     expect(() => sut.addTask(task: const Task(name: "example task")),
         throwsA(const TypeMatcher<Exception>()));
   });
+
+  test('Edit Task Succeeds', () async {
+    when(() => testClient.putData(
+            uri: any(named: 'uri'), body: any(named: 'body')))
+        .thenAnswer((invocation) => Future.value('this is a test'));
+
+    expect(() => sut.editTask(task: const Task(name: "example task")),
+        returnsNormally);
+  });
 }

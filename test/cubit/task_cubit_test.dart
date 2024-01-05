@@ -49,9 +49,9 @@ main() {
             print('Second State: ${cubit.state}');
           });
         },
-        skip: 1,
+        skip: 0,
         expect: () => [
-              TaskState(tasks: const []),
+              TaskState(tasks: [task]),
             ]);
     blocTest('Delete Task removes from the Completed Tasks Array',
         setUp: () {
@@ -75,9 +75,9 @@ main() {
             print('Third State: ${cubit.state}');
           });
         },
-        skip: 1,
+        skip: 0,
         expect: () => [
-              const TaskState(tasks: []),
+              TaskState(tasks: [task]),
             ]);
 
     blocTest(
@@ -117,34 +117,5 @@ main() {
         TaskState(tasks: [newTask]),
       ],
     );
-
-    //   blocTest('Complete Task and Delete Task adds to the Completed Tasks Array',
-    //       setUp: () {
-    //         when(() => mockTaskService.addTask(task: task)).thenAnswer(
-    //           (_) async => Future.value(),
-    //         );
-    //         when(() => mockTaskService.completeTask(task: task)).thenAnswer(
-    //           (_) async => Future.value(),
-    //         );
-    //         when(() => mockTaskService.deleteTask(task: task)).thenAnswer(
-    //           (_) async => Future.value(),
-    //         );
-    //       },
-    //       build: () => taskCubit,
-    //       act: (cubit) async {
-    //         await cubit.addTask(task: task).then((_) async {
-    //           print('First State: ${cubit.state}');
-    //           await cubit.completeTask(task: task);
-    //           print('Second State: ${cubit.state}');
-    //           await cubit.deleteTask(task: task);
-    //           print('Third State: ${cubit.state}');
-    //         });
-    //       },
-    //       skip: 1,
-    //       expect: () => [
-    //             TaskState(tasks: [task], completedTasks: []),
-    //             TaskState(tasks: const [], completedTasks: [task]),
-    //             const TaskState(tasks: [], completedTasks: []),
-    //           ]);
   });
 }

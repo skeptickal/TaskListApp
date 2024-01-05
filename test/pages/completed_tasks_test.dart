@@ -9,6 +9,7 @@ import '../mocks.dart';
 
 void main() {
   final MockGoRouter mockGoRouter = MockGoRouter();
+  Task task = const Task(name: 'example task');
 
   group('Completed Task List', () {
     // Non-`go_router` test
@@ -36,7 +37,7 @@ void main() {
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
-          const TaskState(tasks: []),
+          TaskState(tasks: [task]),
         );
         when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
