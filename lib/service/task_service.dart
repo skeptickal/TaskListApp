@@ -2,18 +2,21 @@ import 'package:task_list_app/client/backend_client.dart';
 import 'package:task_list_app/models/task.dart';
 
 class TaskService {
-  TaskService();
   static const String taskApiBase = '/tasks';
-  BackendClient client = const BackendClient();
 
-  Future<void> addTask({required Task taskName}) async {
+  final BackendClient client;
+
+  TaskService({BackendClient? client}) : client = client ?? BackendClient();
+
+  Future<void> addTask({required Task task}) async {
     try {
       await client.postData(
         uri: taskApiBase,
-        body: taskName.toJson(),
+        body: task.toJson(),
       );
     } catch (e) {
       print('Error adding task: $e');
+      throw Exception('Add Task Failed');
     }
   }
 
@@ -25,9 +28,19 @@ class TaskService {
     return tasks;
   }
 
-  Future<void> removeTask({required Task taskName}) async {}
+  Future<void> editTask({required Task task}) async {
+    try {
+      await client.putData(
+        uri: '$taskApiBase/${task.id}',
+        body: task.toJson(),
+      );
+    } catch (e) {
+      print('Error editing task: $e');
+      throw Exception('Edit Task Failed');
+    }
+  }
 
-  Future<void> completeTask({required Task taskName}) async {}
+  Future<void> completeTask({required Task task}) async {}
 
-  Future<void> deleteTask({required Task taskName}) async {}
+  Future<void> deleteTask({required Task task}) async {}
 }

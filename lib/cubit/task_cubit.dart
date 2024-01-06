@@ -6,16 +6,18 @@ import 'package:task_list_app/service/task_service.dart';
 part 'task_state.dart';
 
 class TaskCubit extends Cubit<TaskState> {
-  TaskCubit() : super(TaskInitial());
-  TaskService service = TaskService();
+  final TaskService taskService;
 
-  void addTask({required Task taskName}) async {
+  TaskCubit({TaskService? taskService})
+      : taskService = taskService ?? TaskService(),
+        super(TaskInitial());
+
+  Future<void> addTask({required Task task}) async {
     try {
-      await service.addTask(taskName: taskName);
+      await taskService.addTask(task: task);
       emit(
         state.copyWith(
-          taskNames: [...state.taskNames, taskName],
-          completedTasks: state.completedTasks,
+          tasks: [...state.tasks, task],
         ),
       );
     } catch (e) {
@@ -24,26 +26,36 @@ class TaskCubit extends Cubit<TaskState> {
   }
 
   Future<void> readTasks() async {
-    final List<Task> tasks = await service.readTasks();
+    final List<Task> tasks = await taskService.readTasks();
     emit(state.copyWith(
-      taskNames: [...tasks],
+      tasks: [...tasks],
     ));
   }
 
-  void removeTask({required Task taskName}) {
-    //TODO: client.removeTask(taskName);
-    emit(state.removeTask(taskName));
-  }
+  Future<void> completeTask({required Task task}) async {}
 
-  void completeTask({required Task taskName}) {
-    emit(
-      state.copyWith(
-        completedTasks: [...state.completedTasks, taskName],
-      ),
-    );
-  }
+  Future<void> deleteTask({required Task task}) async {}
 
-  void deleteTask({required Task taskName}) {
-    emit(state.deleteTask(taskName));
+  Future<void> updateTask({required Task updatedTask}) async {
+    try {
+      await taskService.editTask(task: updatedTask);
+
+      // Find the index of the updated task in the tasks list
+      int indexOfUpdatedTask =
+          state.tasks.indexWhere((task) => task.id == updatedTask.id);
+
+      if (indexOfUpdatedTask != -1) {
+        List<Task> updatedTaskNames = List.from(state.tasks);
+        updatedTaskNames[indexOfUpdatedTask] = updatedTask;
+
+        emit(state.copyWith(
+          tasks: updatedTaskNames,
+        ));
+      } else {
+        print('Task not found in tasks list.');
+      }
+    } catch (e) {
+      print('Error updating task: $e');
+    }
   }
 }

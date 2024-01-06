@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:task_list_app/resource/bottom_nav.dart';
+import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 
 class CompletedTaskScreen extends StatefulWidget {
   const CompletedTaskScreen({super.key});
@@ -10,41 +13,37 @@ class CompletedTaskScreen extends StatefulWidget {
 }
 
 class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
-  Color bgColor = const Color.fromARGB(255, 48, 48, 48);
-  TextStyle tilesText =
-      const TextStyle(color: Colors.white, letterSpacing: 2.0);
-  Color iconColor = const Color.fromARGB(255, 173, 173, 173);
-
   @override
   Widget build(BuildContext context) {
+    context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
-      List<Widget> completedTasks = state.completedTasks.map(
-        (taskName) {
+      List<Widget> completedTasks = state.tasks.map(
+        (task) {
           return ListTile(
-            leading: Icon(
-              Icons.task,
-              color: iconColor,
+            key: const Key('completed tiles'),
+            leading: const Icon(
+              Icons.check,
+              color: Colors.green,
             ),
             title: Text(
-              taskName.name,
+              task.name,
               style: tilesText,
             ),
             trailing: GestureDetector(
-                onTap: () {
-                  context.read<TaskCubit>().deleteTask(taskName: taskName);
-                },
+                onTap: () => _onTapTrashIcon(task),
                 child: Icon(Icons.delete, color: iconColor)),
           );
         },
       ).toList();
 
       return Scaffold(
+        bottomNavigationBar: const BottomNav(),
         backgroundColor: bgColor,
         appBar: AppBar(
           backgroundColor: Colors.black,
-          title: const Text(
+          title: Text(
             'Completed Tasks',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: white),
           ),
           centerTitle: true,
         ),
@@ -56,5 +55,9 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         ),
       );
     });
+  }
+
+  void _onTapTrashIcon(Task task) {
+    context.read<TaskCubit>().deleteTask(task: task);
   }
 }
