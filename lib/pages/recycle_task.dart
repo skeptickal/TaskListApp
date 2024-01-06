@@ -6,25 +6,25 @@ import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
-class CompletedTaskScreen extends StatefulWidget {
-  const CompletedTaskScreen({super.key});
+class RecycleTaskScreen extends StatefulWidget {
+  const RecycleTaskScreen({super.key});
 
   @override
-  State<CompletedTaskScreen> createState() => _CompletedTaskScreenState();
+  State<RecycleTaskScreen> createState() => _RecycleTaskScreenState();
 }
 
-class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
+class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
   @override
   Widget build(BuildContext context) {
     context.read<TaskCubit>().readTasks();
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
-      List<Widget> completedTasks = state.tasks.map(
+      List<Widget> recycledTasks = state.tasks.map(
         (task) {
           return ListTile(
             key: const Key('completed tiles'),
             leading: IconButton(
-              icon: const Icon(Icons.check),
-              color: Colors.green,
+              icon: const Icon(Icons.recycling),
+              color: Colors.blueGrey,
               onPressed: () {},
             ),
             title: Text(
@@ -48,15 +48,15 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
         appBar: AppBar(
           backgroundColor: Colors.black,
           title: Text(
-            'Completed Tasks',
+            'Recycled Tasks',
             style: TextStyle(color: white),
           ),
           centerTitle: true,
         ),
         body: ListView.builder(
-          itemCount: completedTasks.length,
+          itemCount: recycledTasks.length,
           itemBuilder: (context, index) {
-            return completedTasks[index];
+            return recycledTasks[index];
           },
         ),
       );
@@ -70,13 +70,13 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
           surfaceTintColor: bgColor,
           backgroundColor: bgColor,
           title: Text(
-            'Mark as Incomplete or Delete Task?',
+            'Recover or Delete Task?',
             style: TextStyle(color: white),
           ),
           actions: [
             TextButton(
               child: Text(
-                'Mark Incomplete',
+                'Recover Task',
                 style: TextStyle(color: white),
               ),
               onPressed: () => context.pop(),

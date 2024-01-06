@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:task_list_app/resource/bottom_nav.dart';
 import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
@@ -23,9 +24,9 @@ class _TaskListState extends State<TaskList> {
           (task) {
             return ListTile(
               key: const Key('task tiles'),
-              leading: GestureDetector(
-                onTap: () => _showEditPanel(context, task),
-                child: Icon(
+              leading: IconButton(
+                onPressed: () => _showEditPanel(context, task),
+                icon: Icon(
                   Icons.edit,
                   color: iconColor,
                 ),
@@ -34,9 +35,10 @@ class _TaskListState extends State<TaskList> {
                 task.name,
                 style: tilesText,
               ),
-              trailing: GestureDetector(
-                  onTap: () => _onTapCompleteIcon(task),
-                  child: Icon(Icons.remove_circle_outline, color: iconColor)),
+              trailing: IconButton(
+                  onPressed: () => _onTapCompleteIcon(task),
+                  icon: const Icon(Icons.remove_circle_outline,
+                      color: Colors.green)),
             );
           },
         ).toList();
@@ -44,6 +46,11 @@ class _TaskListState extends State<TaskList> {
           bottomNavigationBar: const BottomNav(),
           backgroundColor: bgColor,
           appBar: AppBar(
+            actions: [
+              IconButton(
+                  onPressed: () => context.go('/recycle'),
+                  icon: Icon(Icons.recycling))
+            ],
             iconTheme: IconThemeData(color: iconColor),
             title: Text(
               'Task List',
@@ -81,6 +88,34 @@ class _TaskListState extends State<TaskList> {
         });
   }
 
-  void _onTapCompleteIcon(Task task) =>
-      context.read<TaskCubit>().completeTask(task: task);
+  void _onTapCompleteIcon(Task task) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+          title: Text(
+            'Complete or Recycle Task?',
+            style: TextStyle(color: white),
+          ),
+          backgroundColor: bgColor,
+          surfaceTintColor: bgColor,
+          actions: [
+            TextButton(
+              child: Text(
+                'Complete',
+                style: TextStyle(color: white),
+              ),
+              onPressed: () => context.pop(),
+            ),
+            TextButton(
+              child: Text(
+                'Recycle',
+                style: TextStyle(color: white),
+              ),
+              onPressed: () => context.pop(),
+            ),
+          ]),
+    );
+
+    //context.read<TaskCubit>().completeTask(task: task);
+  }
 }

@@ -33,8 +33,9 @@ class _EditTaskState extends State<EditTask> {
                 style: TextStyle(color: iconColor),
                 controller: _controller,
                 decoration: InputDecoration(
-                    labelText: 'Edit Task Name',
-                    labelStyle: TextStyle(color: white, fontSize: 20)),
+                  labelText: 'Edit Task Name',
+                  labelStyle: TextStyle(color: white, fontSize: 20),
+                ),
               ),
             ),
             ElevatedButton(
