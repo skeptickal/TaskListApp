@@ -75,5 +75,27 @@ class BackendClient {
     }
   }
 
-  //void deleteData(String data) - remove completely from API and view
+  Future<dynamic> deleteData({required String uri}) async {
+    try {
+      final Uri url = Uri.http(localhost, uri);
+      final response = await httpClient.delete(
+        url,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.noContent) {
+        print('Delete executed successfully');
+        // You can return any relevant data if needed.
+        return null;
+      } else {
+        String errorMessage =
+            'Failed to execute Delete Request. Status code: ${response.statusCode}';
+        print(errorMessage);
+        return errorMessage;
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      rethrow;
+    }
+  }
 }

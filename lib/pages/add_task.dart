@@ -34,6 +34,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: TextField(
               key: const Key('Add a task text field'),
+              style: TextStyle(color: iconColor),
               controller: _addTask,
               decoration: InputDecoration(
                 labelText: 'e.g. walk the dog, do the dishes...',
@@ -48,9 +49,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 color: white,
               ),
               onPressed: () {
-                context
-                    .read<TaskCubit>()
-                    .addTask(task: Task(name: _addTask.text));
+                context.read<TaskCubit>().addTask(
+                    task: Task(name: _addTask.text, status: TaskStatus.todo));
                 _addTask.clear();
                 context.go('/');
               },

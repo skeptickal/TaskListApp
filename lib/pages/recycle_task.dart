@@ -16,13 +16,14 @@ class RecycleTaskScreen extends StatefulWidget {
 class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
   @override
   Widget build(BuildContext context) {
-    context.read<TaskCubit>().readTasks();
+    context.read<TaskCubit>().readTasksByStatus(TaskStatus.recycled);
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
       List<Widget> recycledTasks = state.tasks.map(
         (task) {
           return ListTile(
-            key: const Key('completed tiles'),
+            key: const Key('recycled_tiles'),
             leading: IconButton(
+              key: const Key('recycle_icon'),
               icon: const Icon(Icons.recycling),
               color: Colors.blueGrey,
               onPressed: () {},
@@ -32,6 +33,7 @@ class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
               style: tilesText,
             ),
             trailing: IconButton(
+              key: const Key('red_trash_icon'),
               onPressed: () => _onTapTrashIcon(task),
               icon: const Icon(
                 Icons.delete,
@@ -67,6 +69,7 @@ class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
+          key: const Key('recover_or_delete'),
           surfaceTintColor: bgColor,
           backgroundColor: bgColor,
           title: Text(
@@ -75,21 +78,39 @@ class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
           ),
           actions: [
             TextButton(
+              key: const Key('recycle_mark_recover'),
               child: Text(
-                'Recover Task',
+                'Recover',
                 style: TextStyle(color: white),
               ),
-              onPressed: () => context.pop(),
+              onPressed: () async {
+                context
+                    .read<TaskCubit>()
+                    .recoverTask(task: task)
+                    .then((result) {
+                  context
+                      .read<TaskCubit>()
+                      .readTasksByStatus(TaskStatus.recycled);
+                  context.pop();
+                });
+              },
             ),
             TextButton(
+              key: const Key('recycle_mark_deleted'),
               child: Text(
                 'Delete Permanently',
                 style: TextStyle(color: white),
               ),
-              onPressed: () => context.pop(),
-            ),
+              onPressed: () async {
+                context.read<TaskCubit>().deleteTask(task: task).then((result) {
+                  context
+                      .read<TaskCubit>()
+                      .readTasksByStatus(TaskStatus.recycled);
+                  context.pop();
+                });
+              },
+            )
           ]),
     );
-    context.read<TaskCubit>().deleteTask(task: task);
   }
 }

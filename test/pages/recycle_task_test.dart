@@ -3,38 +3,31 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
-import 'package:task_list_app/pages/completed_tasks.dart';
+import 'package:task_list_app/pages/recycle_task.dart';
 import '../materializer.dart';
 import '../mocks.dart';
 
 void main() {
   final MockGoRouter mockGoRouter = MockGoRouter();
-  Task task = const Task(name: 'example task', status: TaskStatus.completed);
+  Task task = const Task(name: 'example task', status: TaskStatus.recycled);
 
-  group('Completed Task List', () {
-    // Non-`go_router` test
-    testWidgets(
-      'completed tasks title is displayed',
-      (WidgetTester tester) async {
-        // Set up mock cubit(s) - This can be done in the setUp() if it's common to a group() of tests
-        final MockTaskCubit mockTaskCubit = MockTaskCubit();
-        when(() => mockTaskCubit.state).thenReturn(
-          const TaskState(tasks: []),
-        );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
-            .thenAnswer((_) => Future.value());
+  group('Task List', () {
+    testWidgets('title is displayed', (WidgetTester tester) async {
+      final MockTaskCubit mockTaskCubit = MockTaskCubit();
+      when(() => mockTaskCubit.state).thenReturn(
+        TaskState(tasks: [task]),
+      );
+      when(() => mockTaskCubit.readTasksByStatus(TaskStatus.recycled))
+          .thenAnswer((_) => Future.value());
 
-        // Render the widget in the file name
-        await tester.pumpWidget(Materializer(
-          mockCubits: [mockTaskCubit],
-          child: const CompletedTaskScreen(),
-        ));
+      await tester.pumpWidget(Materializer(
+        mockCubits: [mockTaskCubit],
+        child: const RecycleTaskScreen(),
+      ));
 
-        // Do your test stuff
-        final titleFinder = find.text('Completed Tasks');
-        expect(titleFinder, findsOneWidget);
-      },
-    );
+      final titleFinder = find.text('Recycled Tasks');
+      expect(titleFinder, findsOneWidget);
+    });
 
     testWidgets(
       'List Tiles Present',
@@ -43,27 +36,27 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.recycled))
             .thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
-          child: const CompletedTaskScreen(),
+          child: const RecycleTaskScreen(),
         ));
         await tester.pumpAndSettle();
-        final tileFinder = find.byKey(const Key('completed tiles'));
+        final tileFinder = find.byKey(const Key('recycled_tiles'));
         expect(tileFinder, findsOneWidget);
       },
     );
 
     testWidgets(
-      'Pop Up Occurs',
+      'Pop Up Occurs on Main Screen',
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.recycled))
             .thenAnswer((_) => Future.value());
         when(() => mockTaskCubit.recoverTask(task: task))
             .thenAnswer((invocation) => Future.value());
@@ -72,29 +65,34 @@ void main() {
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
-          child: const CompletedTaskScreen(),
+          child: const RecycleTaskScreen(),
         ));
         await tester.pumpAndSettle();
 
+        final recycleIconFidner = find.byKey(
+          const Key('recycle_icon'),
+        );
+        expect(recycleIconFidner, findsOneWidget);
+
         final iconFinder = find.byKey(
-          const Key('completed_trash_icon'),
+          const Key('red_trash_icon'),
         );
         expect(iconFinder, findsOneWidget);
         await tester.tap(iconFinder);
         await tester.pumpAndSettle();
 
         final popFinder = find.byKey(
-          const Key('incomplete_or_delete'),
+          const Key('recover_or_delete'),
         );
         expect(popFinder, findsOneWidget);
 
-        final incompleteTextButtonFinder = find.byKey(
-          const Key('complete_mark_incomplete'),
+        final recoverTextButtonFinder = find.byKey(
+          const Key('recycle_mark_recover'),
         );
-        expect(incompleteTextButtonFinder, findsOneWidget);
+        expect(recoverTextButtonFinder, findsOneWidget);
 
         final deleteTextButtonFinder =
-            find.byKey(const Key('complete_mark_deleted'));
+            find.byKey(const Key('recycle_mark_deleted'));
         expect(deleteTextButtonFinder, findsOneWidget);
       },
     );
