@@ -86,7 +86,7 @@ class _TaskListState extends State<TaskList> {
                 onTaskUpdated: (updatedTask) {
                   context
                       .read<TaskCubit>()
-                      .updateTask(updatedTask: updatedTask);
+                      .updateTask(task: updatedTask);
                 }),
           );
         });
@@ -113,7 +113,7 @@ class _TaskListState extends State<TaskList> {
               onPressed: () async {
                 context
                     .read<TaskCubit>()
-                    .completeTask(task: task)
+                    .updateTask(task: task, newStatus: TaskStatus.completed)
                     .then((result) {
                   context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
                   context.pop();
@@ -129,7 +129,7 @@ class _TaskListState extends State<TaskList> {
               onPressed: () async {
                 context
                     .read<TaskCubit>()
-                    .recycleTask(task: task)
+                    .updateTask(task: task, newStatus: TaskStatus.recycled)
                     .then((result) {
                   context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
                   context.pop();

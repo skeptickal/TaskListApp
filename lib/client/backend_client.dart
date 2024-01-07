@@ -11,8 +11,9 @@ class BackendClient {
   BackendClient({http.Client? httpClient})
       : httpClient = httpClient ?? http.Client();
 
-  Future<dynamic> getData({required String uri}) async {
-    var url = Uri.http(localhost, uri);
+  Future<dynamic> getData(
+      {required String uri, Map<String, dynamic>? queryParams}) async {
+    var url = Uri.http(localhost, uri, queryParams);
     try {
       // JACKSON: Search for this bit in the pub.dev page: "If you're making multiple requests to the same server, you can keep open a persistent connection"
       var response = await httpClient.get(url);
@@ -52,9 +53,13 @@ class BackendClient {
     }
   }
 
-  Future<dynamic> putData({required String uri, dynamic body}) async {
+  Future<dynamic> putData({
+    required String uri,
+    dynamic body,
+    Map<String, dynamic>? queryParams,
+  }) async {
     try {
-      final Uri url = Uri.http(localhost, uri);
+      final Uri url = Uri.http(localhost, uri, queryParams);
       final response = await httpClient.put(
         url,
         headers: headers,
@@ -85,7 +90,6 @@ class BackendClient {
 
       if (response.statusCode == HttpStatus.noContent) {
         print('Delete executed successfully');
-        // You can return any relevant data if needed.
         return null;
       } else {
         String errorMessage =

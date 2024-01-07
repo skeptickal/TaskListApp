@@ -65,7 +65,7 @@ void main() {
         );
         when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
             .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.recoverTask(task: task))
+        when(() => mockTaskCubit.updateTask(task: task))
             .thenAnswer((invocation) => Future.value());
         when(() => mockTaskCubit.deleteTask(task: task))
             .thenAnswer((invocation) => Future.value());

@@ -25,13 +25,6 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<void> readTasks() async {
-    final List<Task> tasks = await taskService.readTasks();
-    emit(state.copyWith(
-      tasks: [...tasks],
-    ));
-  }
-
   Future<void> readTasksByStatus(TaskStatus status) async {
     try {
       final List<Task> tasks = await taskService.readTasksByStatus(status);
@@ -43,47 +36,26 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<void> completeTask({required Task task}) async {
+ 
+  Future<void> updateTask({
+    required Task task,
+    TaskStatus? newStatus,
+    String? newName,
+  }) async {
     try {
-      await taskService.completeTask(task: task);
-      emit(state.copyWith(
-        tasks: state.tasks
-            .map((t) => t.id == task.id
-                ? task.copyWith(status: TaskStatus.completed)
-                : t)
-            .toList(),
-      ));
-    } catch (e) {
-      print('Error completing task: $e');
-    }
-  }
+      final updatedTask = task.copyWith(
+        status: newStatus ?? task.status,
+        name: newName ?? task.name,
+      );
 
-  Future<void> recoverTask({required Task task}) async {
-    try {
-      await taskService.recoverTask(task: task);
-      emit(state.copyWith(
-        tasks: state.tasks
-            .map((t) =>
-                t.id == task.id ? task.copyWith(status: TaskStatus.todo) : t)
-            .toList(),
-      ));
-    } catch (e) {
-      print('Error recycling task: $e');
-    }
-  }
+      await taskService.updateTask(task: updatedTask);
 
-  Future<void> recycleTask({required Task task}) async {
-    try {
-      await taskService.recycleTask(task: task);
-      emit(state.copyWith(
-        tasks: state.tasks
-            .map((t) => t.id == task.id
-                ? task.copyWith(status: TaskStatus.recycled)
-                : t)
-            .toList(),
-      ));
+      final updatedTasks =
+          state.tasks.map((t) => t.id == task.id ? updatedTask : t).toList();
+
+      emit(state.copyWith(tasks: updatedTasks));
     } catch (e) {
-      print('Error recycling task: $e');
+      print(e);
     }
   }
 
@@ -97,29 +69,7 @@ class TaskCubit extends Cubit<TaskState> {
             .toList(),
       ));
     } catch (e) {
-      print('Error deleting task: $e');
-    }
-  }
-
-  Future<void> updateTask({required Task updatedTask}) async {
-    try {
-      await taskService.editTask(task: updatedTask);
-
-      int indexOfUpdatedTask =
-          state.tasks.indexWhere((task) => task.id == updatedTask.id);
-
-      if (indexOfUpdatedTask != -1) {
-        List<Task> updatedTaskNames = List.from(state.tasks);
-        updatedTaskNames[indexOfUpdatedTask] = updatedTask;
-
-        emit(state.copyWith(
-          tasks: updatedTaskNames,
-        ));
-      } else {
-        print('Task not found in tasks list.');
-      }
-    } catch (e) {
-      print('Error updating task: $e');
+      print(e);
     }
   }
 }

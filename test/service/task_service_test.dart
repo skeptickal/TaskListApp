@@ -15,11 +15,12 @@ void main() {
   });
 
   test('Reads Tasks', () async {
-    when(() => testClient.getData(uri: any(named: 'uri')))
+    when(() => testClient
+            .getData(uri: any(named: 'uri'), queryParams: {'status': 'todo'}))
         .thenAnswer((invocation) => Future.value([
               {'name': 'example task', 'status': 'todo'}
             ]));
-    List<Task> actual = await sut.readTasks();
+    List<Task> actual = await sut.readTasksByStatus(TaskStatus.todo);
     List<Task> expected = [
       const Task(name: 'example task', status: TaskStatus.todo)
     ];
@@ -27,9 +28,10 @@ void main() {
   });
 
   test('Reads Tasks Negative', () async {
-    when(() => testClient.getData(uri: any(named: 'uri')))
+    when(() => testClient
+            .getData(uri: any(named: 'uri'), queryParams: {'status': 'todo'}))
         .thenAnswer((invocation) => Future.value([]));
-    List<Task> actual = await sut.readTasks();
+    List<Task> actual = await sut.readTasksByStatus(TaskStatus.todo);
     List<Task> expected = [
       const Task(name: 'example task', status: TaskStatus.todo)
     ];
@@ -62,7 +64,7 @@ void main() {
         .thenAnswer((invocation) => Future.value('this is a test'));
 
     expect(
-        () => sut.editTask(
+        () => sut.updateTask(
             task: const Task(name: 'example task', status: TaskStatus.todo)),
         returnsNormally);
   });
@@ -73,7 +75,7 @@ void main() {
         .thenAnswer((invocation) => Future.value('this is a test'));
 
     expect(
-        () => sut.completeTask(
+        () => sut.updateTask(
             task:
                 const Task(name: 'example task', status: TaskStatus.completed)),
         returnsNormally);
@@ -96,7 +98,7 @@ void main() {
         .thenAnswer((invocation) => Future.value('this is a test'));
 
     expect(
-        () => sut.recycleTask(
+        () => sut.updateTask(
             task:
                 const Task(name: 'example task', status: TaskStatus.recycled)),
         returnsNormally);
@@ -108,7 +110,7 @@ void main() {
         .thenAnswer((invocation) => Future.value('this is a test'));
 
     expect(
-        () => sut.recoverTask(
+        () => sut.updateTask(
             task: const Task(name: 'example task', status: TaskStatus.todo)),
         returnsNormally);
   });
@@ -118,18 +120,8 @@ void main() {
         uri: any(named: 'uri'), body: any(named: 'body'))).thenThrow(Exception);
 
     expect(
-        () => sut.recoverTask(
+        () => sut.updateTask(
             task: const Task(name: 'example task', status: TaskStatus.todo)),
         throwsA(const TypeMatcher<Exception>()));
-  });
-
-  test('Read Tasks by Status Succeeds', () async {
-    when(() => testClient.getData(
-              uri: any(named: 'uri'),
-            ))
-        .thenAnswer((invocation) =>
-            Future.value({'name': 'example task', 'status': 'todo'}));
-
-    expect(() => sut.readTasksByStatus(TaskStatus.todo), returnsNormally);
   });
 }

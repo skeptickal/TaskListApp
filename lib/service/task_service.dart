@@ -8,8 +8,9 @@ class TaskService {
 
   TaskService({BackendClient? client}) : client = client ?? BackendClient();
 
-  Future<void> addTask({required Task task}) async {
+  Future<void> addTask({required Task task, TaskStatus? status}) async {
     try {
+      task = task.copyWithStatus(TaskStatus.todo);
       await client.postData(
         uri: taskApiBase,
         body: task.toJson(),
@@ -20,18 +21,11 @@ class TaskService {
     }
   }
 
-  Future<List<Task>> readTasks() async {
-    dynamic data = await client.getData(uri: taskApiBase);
-    List<Task> tasks =
-        List<Task>.from(data.map((taskData) => Task.fromJson(taskData)));
-    print(data);
-    return tasks;
-  }
-
   Future<List<Task>> readTasksByStatus(TaskStatus status) async {
     try {
       dynamic data = await client.getData(
-        uri: '/${Task.getStatusString(status)}',
+        uri: '/tasks',
+        queryParams: {'status': Task.getStatusString(status)},
       );
 
       if (data is List) {
@@ -48,41 +42,26 @@ class TaskService {
     }
   }
 
-  Future<void> editTask({required Task task}) async {
+  Future<void> updateTask({
+    required Task task,
+    TaskStatus? newStatus,
+  }) async {
     try {
-      await client.putData(
-        uri: '$taskApiBase/${task.id}',
-        body: task.toJson(),
-      );
+      if (newStatus != null) {
+        task = task.copyWithStatus(newStatus);
+        await client.putData(
+          uri: '$taskApiBase/${task.id}/${Task.getStatusString(newStatus)}',
+          body: task.toJson(),
+        );
+      } else {
+        await client.putData(
+          uri: '$taskApiBase/${task.id}',
+          body: task.toJson(),
+        );
+      }
     } catch (e) {
-      print('Error editing task: $e');
-      throw Exception('Edit Task Failed');
-    }
-  }
-
-  Future<void> recoverTask({required Task task}) async {
-    try {
-      task = task.copyWithStatus(TaskStatus.todo);
-      await client.putData(
-        uri: '$taskApiBase/${task.id}/todo',
-        body: task.toJson(),
-      );
-    } catch (e) {
-      print('Error completing task: $e');
-      throw Exception('Recover Task Failed');
-    }
-  }
-
-  Future<void> completeTask({required Task task}) async {
-    try {
-      task = task.copyWithStatus(TaskStatus.completed);
-      await client.putData(
-        uri: '$taskApiBase/${task.id}/complete',
-        body: task.toJson(),
-      );
-    } catch (e) {
-      print('Error completing task: $e');
-      throw Exception('Complete Task Failed');
+      print('Error updating task: $e');
+      throw Exception('Update Task Failed');
     }
   }
 
@@ -95,19 +74,6 @@ class TaskService {
     } catch (e) {
       print('Error deleting task: $e');
       throw Exception('Delete Task Failed');
-    }
-  }
-
-  Future<void> recycleTask({required Task task}) async {
-    try {
-      task = task.copyWithStatus(TaskStatus.recycled);
-      await client.putData(
-        uri: '$taskApiBase/${task.id}/recycle',
-        body: task.toJson(),
-      );
-    } catch (e) {
-      print('Error recycling task: $e');
-      throw Exception('Recycle Task Failed');
     }
   }
 }

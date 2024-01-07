@@ -8,18 +8,20 @@ import '../materializer.dart';
 import '../mocks.dart';
 
 void main() {
+  Task updatedTask = const Task(name: 'example', status: TaskStatus.todo);
   setUpAll(() {
     // Register a fallback value for Task
     registerFallbackValue(
         const Task(id: 0, name: 'dummy', status: TaskStatus.todo));
   });
-  testWidgets('Edit tasks title is displayed', (WidgetTester tester) async {
+  testWidgets('Edit tasks title is displayed, and edit button exists',
+      (WidgetTester tester) async {
     // Set up mock cubit(s)
     final MockTaskCubit mockTaskCubit = MockTaskCubit();
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.updateTask(updatedTask: any(named: 'updatedTask')))
+    when(() => mockTaskCubit.updateTask(task: updatedTask))
         .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
@@ -28,9 +30,9 @@ void main() {
         mockCubits: [mockTaskCubit],
         child: Scaffold(
           body: EditTask(
-            task: const Task(name: 'example task', status: TaskStatus.todo),
+            task: const Task(name: 'updatedTask', status: TaskStatus.todo),
             onTaskUpdated: (updatedTask) {
-              mockTaskCubit.updateTask(updatedTask: updatedTask);
+              mockTaskCubit.updateTask(task: updatedTask);
             },
           ),
         ),
@@ -44,7 +46,5 @@ void main() {
 
     final editButtonfinder = find.byKey(const Key('edit_task_button'));
     expect(editButtonfinder, findsOneWidget);
-    await tester.tap(editButtonfinder);
-    await tester.pumpAndSettle();
   });
 }

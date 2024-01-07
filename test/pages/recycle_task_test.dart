@@ -11,7 +11,7 @@ void main() {
   final MockGoRouter mockGoRouter = MockGoRouter();
   Task task = const Task(name: 'example task', status: TaskStatus.recycled);
 
-  group('Task List', () {
+  group('Recycled Task List', () {
     testWidgets('title is displayed', (WidgetTester tester) async {
       final MockTaskCubit mockTaskCubit = MockTaskCubit();
       when(() => mockTaskCubit.state).thenReturn(
@@ -50,7 +50,7 @@ void main() {
     );
 
     testWidgets(
-      'Pop Up Occurs on Main Screen',
+      'Pop Up Occurs on Recycle Screen',
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
@@ -58,7 +58,8 @@ void main() {
         );
         when(() => mockTaskCubit.readTasksByStatus(TaskStatus.recycled))
             .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.recoverTask(task: task))
+        when(() => mockTaskCubit.updateTask(
+                task: task, newStatus: TaskStatus.todo))
             .thenAnswer((invocation) => Future.value());
         when(() => mockTaskCubit.deleteTask(task: task))
             .thenAnswer((invocation) => Future.value());

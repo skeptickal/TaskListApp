@@ -85,7 +85,7 @@ class _CompletedTaskScreenState extends State<CompletedTaskScreen> {
               onPressed: () async {
                 context
                     .read<TaskCubit>()
-                    .recoverTask(task: task)
+                    .updateTask(task: task, newStatus: TaskStatus.todo)
                     .then((result) {
                   context
                       .read<TaskCubit>()

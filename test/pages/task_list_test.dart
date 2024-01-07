@@ -62,9 +62,11 @@ void main() {
         );
         when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
             .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.recycleTask(task: task))
+        when(() => mockTaskCubit.updateTask(
+                task: task, newStatus: TaskStatus.recycled))
             .thenAnswer((invocation) => Future.value());
-        when(() => mockTaskCubit.completeTask(task: task))
+        when(() => mockTaskCubit.updateTask(
+                task: task, newStatus: TaskStatus.completed))
             .thenAnswer((invocation) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
@@ -113,9 +115,11 @@ void main() {
         );
         when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
             .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.recycleTask(task: task))
+        when(() => mockTaskCubit.updateTask(
+                task: task, newStatus: TaskStatus.recycled))
             .thenAnswer((invocation) => Future.value());
-        when(() => mockTaskCubit.completeTask(task: task))
+        when(() => mockTaskCubit.updateTask(
+                task: task, newStatus: TaskStatus.completed))
             .thenAnswer((invocation) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
