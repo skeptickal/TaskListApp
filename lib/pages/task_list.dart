@@ -7,14 +7,9 @@ import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/pages/edit_task.dart';
 
-class TaskList extends StatefulWidget {
-  const TaskList({super.key});
+class TaskList extends StatelessWidget {
+  const TaskList({Key? key}) : super(key: key);
 
-  @override
-  State<TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
   @override
   Widget build(BuildContext context) {
     context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
@@ -38,7 +33,7 @@ class _TaskListState extends State<TaskList> {
               ),
               trailing: IconButton(
                   key: const Key('move_task_icon'),
-                  onPressed: () => _onTapCompleteIcon(task),
+                  onPressed: () => _onTapCompleteIcon(context, task),
                   icon: const Icon(Icons.remove_circle_outline,
                       color: Colors.green)),
             );
@@ -84,59 +79,58 @@ class _TaskListState extends State<TaskList> {
             child: EditTask(
                 task: task,
                 onTaskUpdated: (updatedTask) {
-                  context
-                      .read<TaskCubit>()
-                      .updateTask(task: updatedTask);
+                  context.read<TaskCubit>().updateTask(task: updatedTask);
                 }),
           );
         });
   }
 
-  void _onTapCompleteIcon(Task task) {
+  void _onTapCompleteIcon(BuildContext context, Task task) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          key: const Key('complete_or_recycle'),
-          title: Text(
-            'Complete or Recycle Task?',
-            style: TextStyle(color: white),
+        key: const Key('complete_or_recycle'),
+        title: Text(
+          'Complete or Recycle Task?',
+          style: TextStyle(color: white),
+        ),
+        backgroundColor: bgColor,
+        surfaceTintColor: bgColor,
+        actions: [
+          TextButton(
+            key: const Key('incomplete_mark_complete'),
+            child: Text(
+              'Complete',
+              style: TextStyle(color: white),
+            ),
+            onPressed: () async {
+              context
+                  .read<TaskCubit>()
+                  .updateTask(task: task, newStatus: TaskStatus.completed)
+                  .then((result) {
+                context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+                context.pop();
+              });
+            },
           ),
-          backgroundColor: bgColor,
-          surfaceTintColor: bgColor,
-          actions: [
-            TextButton(
-              key: const Key('incomplete_mark_complete'),
-              child: Text(
-                'Complete',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () async {
-                context
-                    .read<TaskCubit>()
-                    .updateTask(task: task, newStatus: TaskStatus.completed)
-                    .then((result) {
-                  context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
-                  context.pop();
-                });
-              },
+          TextButton(
+            key: const Key('incomplete_mark_recycled'),
+            child: Text(
+              'Recycle',
+              style: TextStyle(color: white),
             ),
-            TextButton(
-              key: const Key('incomplete_mark_recycled'),
-              child: Text(
-                'Recycle',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () async {
-                context
-                    .read<TaskCubit>()
-                    .updateTask(task: task, newStatus: TaskStatus.recycled)
-                    .then((result) {
-                  context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
-                  context.pop();
-                });
-              },
-            ),
-          ]),
+            onPressed: () async {
+              context
+                  .read<TaskCubit>()
+                  .updateTask(task: task, newStatus: TaskStatus.recycled)
+                  .then((result) {
+                context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+                context.pop();
+              });
+            },
+          ),
+        ],
+      ),
     );
   }
 }

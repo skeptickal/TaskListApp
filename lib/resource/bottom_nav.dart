@@ -2,14 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/constants/constants.dart';
 
-class BottomNav extends StatefulWidget {
-  const BottomNav({super.key});
+class BottomNav extends StatelessWidget {
+  const BottomNav({Key? key}) : super(key: key);
 
-  @override
-  State<BottomNav> createState() => _BottomNavState();
-}
-
-class _BottomNavState extends State<BottomNav> {
   @override
   Widget build(BuildContext context) {
     return NavigationBar(height: 50, backgroundColor: black, destinations: [

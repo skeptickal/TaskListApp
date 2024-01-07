@@ -6,17 +6,13 @@ import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+class AddTaskScreen extends StatelessWidget {
+  const AddTaskScreen({Key? key}) : super(key: key);
 
-  @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
-}
-
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  final TextEditingController _addTask = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final TextEditingController _addTask = TextEditingController();
+
     return Scaffold(
       bottomNavigationBar: const BottomNav(),
       backgroundColor: bgColor,
@@ -43,18 +39,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
           ),
           IconButton(
-              key: const Key('Add Task Button'),
-              icon: Icon(
-                Icons.add,
-                color: white,
-              ),
-              onPressed: () {
-                context.read<TaskCubit>().addTask(
-                    task: Task(name: _addTask.text, status: TaskStatus.todo));
-                _addTask.clear();
-                context.go('/');
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: black)),
+            key: const Key('Add Task Button'),
+            icon: Icon(
+              Icons.add,
+              color: white,
+            ),
+            onPressed: () {
+              context.read<TaskCubit>().addTask(
+                    task: Task(name: _addTask.text, status: TaskStatus.todo),
+                  );
+              _addTask.clear();
+              context.go('/');
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: black),
+          ),
         ],
       ),
     );
