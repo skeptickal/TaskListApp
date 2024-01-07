@@ -12,7 +12,7 @@ void main() {
 
     // JACKSON: The way MockClient works is - no matter what request it gets - it responds with the response you give it (line 22). Since that is the way it works, I created this function so we can mock the HTTP request with a different response for each test
     BackendClient createBackendClientWithMockedResponse({
-      required Map<String, dynamic> responseBody,
+      required Map<String, dynamic>? responseBody,
       required int statusCode,
       Map<String, String>? headers,
     }) {
@@ -87,6 +87,25 @@ void main() {
       print('Actual Result: $result');
       expect(result,
           equals('Failed to execute Put Request. Status code: $statusCode'));
+    });
+
+    test('deleteData returns data on success', () async {
+      const Null responseBody = null;
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: responseBody, statusCode: 204);
+      final dynamic result = await backendClient.deleteData(uri: '/example');
+      print('Actual Result: $result');
+      expect(result, equals(responseBody));
+    });
+
+    test('deleteData returns an error message on failure', () async {
+      const Map<String, String> responseBody = {'key': 'value'};
+      BackendClient backendClient = createBackendClientWithMockedResponse(
+          responseBody: responseBody, statusCode: 404);
+      final dynamic result = await backendClient.deleteData(uri: '/example');
+      print('Actual Result: $result');
+      expect(
+          result, equals('Failed to execute Delete Request. Status code: 404'));
     });
   });
 }

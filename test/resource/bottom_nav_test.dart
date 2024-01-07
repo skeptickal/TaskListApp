@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/resource/bottom_nav.dart';
 import '../materializer.dart';
 import '../mocks.dart';
@@ -14,7 +15,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(
@@ -41,7 +43,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(
@@ -68,7 +71,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(

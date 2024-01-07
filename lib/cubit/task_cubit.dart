@@ -25,37 +25,51 @@ class TaskCubit extends Cubit<TaskState> {
     }
   }
 
-  Future<void> readTasks() async {
-    final List<Task> tasks = await taskService.readTasks();
-    emit(state.copyWith(
-      tasks: [...tasks],
-    ));
+  Future<void> readTasksByStatus(TaskStatus status) async {
+    try {
+      final List<Task> tasks = await taskService.readTasksByStatus(status);
+      emit(state.copyWith(
+        tasks: [...tasks],
+      ));
+    } catch (e) {
+      print('Error reading tasks by status: $e');
+    }
   }
 
-  Future<void> completeTask({required Task task}) async {}
-
-  Future<void> deleteTask({required Task task}) async {}
-
-  Future<void> updateTask({required Task updatedTask}) async {
+ 
+  Future<void> updateTask({
+    required Task task,
+    TaskStatus? newStatus,
+    String? newName,
+  }) async {
     try {
-      await taskService.editTask(task: updatedTask);
+      final updatedTask = task.copyWith(
+        status: newStatus ?? task.status,
+        name: newName ?? task.name,
+      );
 
-      // Find the index of the updated task in the tasks list
-      int indexOfUpdatedTask =
-          state.tasks.indexWhere((task) => task.id == updatedTask.id);
+      await taskService.updateTask(task: updatedTask);
 
-      if (indexOfUpdatedTask != -1) {
-        List<Task> updatedTaskNames = List.from(state.tasks);
-        updatedTaskNames[indexOfUpdatedTask] = updatedTask;
+      final updatedTasks =
+          state.tasks.map((t) => t.id == task.id ? updatedTask : t).toList();
 
-        emit(state.copyWith(
-          tasks: updatedTaskNames,
-        ));
-      } else {
-        print('Task not found in tasks list.');
-      }
+      emit(state.copyWith(tasks: updatedTasks));
     } catch (e) {
-      print('Error updating task: $e');
+      print(e);
+    }
+  }
+
+  Future<void> deleteTask({required Task task}) async {
+    try {
+      await taskService.deleteTask(task: task);
+      emit(state.copyWith(
+        tasks: state.tasks
+            .map((t) =>
+                t.id == task.id ? task.copyWith(status: TaskStatus.deleted) : t)
+            .toList(),
+      ));
+    } catch (e) {
+      print(e);
     }
   }
 }

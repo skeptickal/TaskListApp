@@ -39,6 +39,7 @@ class _EditTaskState extends State<EditTask> {
               ),
             ),
             ElevatedButton(
+              key: const Key('edit_task_button'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: black,
               ),
@@ -47,8 +48,10 @@ class _EditTaskState extends State<EditTask> {
                 final String updatedTaskName = _controller.text;
 
                 // Create a new TaskName object with the updated name
-                final Task updatedTask =
-                    Task(id: widget.task.id, name: updatedTaskName);
+                final Task updatedTask = Task(
+                    id: widget.task.id,
+                    name: updatedTaskName,
+                    status: widget.task.status);
 
                 // Call the callback function to return the updated task
                 widget.onTaskUpdated(updatedTask);
