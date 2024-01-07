@@ -28,6 +28,17 @@ void main() {
     expect(actual, expected);
   });
 
+  test('Reads Tasks Unexpected Format', () async {
+    when(() => testClient
+            .getData(uri: any(named: 'uri'), queryParams: {'status': 'todo'}))
+        .thenAnswer((invocation) => Future.value([
+              {'badf format'}
+            ]));
+    List<Task> actual = await sut.readTasksByStatus(TaskStatus.todo);
+    List<Task> expected = [];
+    expect(actual, expected);
+  });
+
   test('Reads Tasks Negative', () async {
     when(() => testClient
             .getData(uri: any(named: 'uri'), queryParams: {'status': 'todo'}))
@@ -79,6 +90,17 @@ void main() {
         () => sut.deleteTask(
             task: const Task(name: 'example task', status: TaskStatus.deleted)),
         returnsNormally);
+  });
+
+  test('Delete Task Fails', () async {
+    when(() => testClient.deleteData(
+          uri: any(named: 'uri'),
+        )).thenThrow(Exception);
+
+    expect(
+        () => sut.deleteTask(
+            task: const Task(name: 'example task', status: TaskStatus.deleted)),
+        throwsA(const TypeMatcher<Exception>()));
   });
 
   test('Complete Task Succeeds', () async {
