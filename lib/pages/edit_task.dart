@@ -7,8 +7,7 @@ class EditTask extends StatelessWidget {
   final Task task;
   final Function(Task) onTaskUpdated;
 
-  const EditTask({Key? key, required this.task, required this.onTaskUpdated})
-      : super(key: key);
+  const EditTask({super.key, required this.task, required this.onTaskUpdated});
 
   @override
   Widget build(BuildContext context) {

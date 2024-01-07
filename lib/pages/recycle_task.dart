@@ -7,7 +7,7 @@ import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
 class RecycleTaskScreen extends StatelessWidget {
-  const RecycleTaskScreen({Key? key}) : super(key: key);
+  const RecycleTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

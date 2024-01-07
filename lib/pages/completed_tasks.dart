@@ -7,7 +7,7 @@ import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
 class CompletedTaskScreen extends StatelessWidget {
-  const CompletedTaskScreen({Key? key}) : super(key: key);
+  const CompletedTaskScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

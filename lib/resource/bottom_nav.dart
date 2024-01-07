@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:task_list_app/constants/constants.dart';
 
 class BottomNav extends StatelessWidget {
-  const BottomNav({Key? key}) : super(key: key);
+  const BottomNav({super.key});
 
   @override
   Widget build(BuildContext context) {

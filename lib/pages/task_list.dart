@@ -8,7 +8,7 @@ import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/pages/edit_task.dart';
 
 class TaskList extends StatelessWidget {
-  const TaskList({Key? key}) : super(key: key);
+  const TaskList({super.key});
 
   @override
   Widget build(BuildContext context) {
