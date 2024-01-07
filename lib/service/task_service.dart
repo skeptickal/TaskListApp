@@ -52,6 +52,7 @@ class TaskService {
         await client.putData(
           uri: '$taskApiBase/${task.id}/${Task.getStatusString(newStatus)}',
           body: task.toJson(),
+          queryParams: {'status': Task.getStatusString(newStatus)},
         );
       } else {
         await client.putData(
