@@ -11,7 +11,7 @@ class EditTask extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller = TextEditingController(text: task.name);
+    TextEditingController controller = TextEditingController(text: task.name);
 
     return Form(
       key: const Key('Form'),
@@ -22,7 +22,7 @@ class EditTask extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(0, 0, 0, 42),
             child: TextField(
               style: TextStyle(color: iconColor),
-              controller: _controller,
+              controller: controller,
               decoration: InputDecoration(
                 labelText: 'Edit Task Name',
                 labelStyle: TextStyle(color: white, fontSize: 20),
@@ -35,7 +35,7 @@ class EditTask extends StatelessWidget {
               backgroundColor: black,
             ),
             onPressed: () {
-              final String updatedTaskName = _controller.text;
+              final String updatedTaskName = controller.text;
               final Task updatedTask = Task(
                 id: task.id,
                 name: updatedTaskName,

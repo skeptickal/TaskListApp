@@ -11,7 +11,7 @@ class AddTaskScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _addTask = TextEditingController();
+    final TextEditingController addTask = TextEditingController();
 
     return Scaffold(
       bottomNavigationBar: const BottomNav(),
@@ -31,7 +31,7 @@ class AddTaskScreen extends StatelessWidget {
             child: TextField(
               key: const Key('Add a task text field'),
               style: TextStyle(color: iconColor),
-              controller: _addTask,
+              controller: addTask,
               decoration: InputDecoration(
                 labelText: 'e.g. walk the dog, do the dishes...',
                 labelStyle: TextStyle(color: white, fontSize: 14),
@@ -46,9 +46,9 @@ class AddTaskScreen extends StatelessWidget {
             ),
             onPressed: () {
               context.read<TaskCubit>().addTask(
-                    task: Task(name: _addTask.text, status: TaskStatus.todo),
+                    task: Task(name: addTask.text, status: TaskStatus.todo),
                   );
-              _addTask.clear();
+              addTask.clear();
               context.go('/');
             },
             style: ElevatedButton.styleFrom(backgroundColor: black),
