@@ -84,7 +84,7 @@ class BackendClient {
         headers: headers,
       );
 
-      if (response.statusCode == HttpStatus.noContent) {
+      if (response.statusCode == HttpStatus.accepted) {
         print('Delete executed successfully');
         return null;
       } else {

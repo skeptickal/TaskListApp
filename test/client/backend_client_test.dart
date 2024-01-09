@@ -31,8 +31,7 @@ void main() {
     // JACKSON: We use our createBackendClientWithMockedResponse() function to mock out the Spring backend
     test('getData returns data on success', () async {
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 200);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 200);
       final dynamic result = await backendClient.getData(uri: '/example');
       expect(result, equals(responseBody));
     });
@@ -40,39 +39,31 @@ void main() {
     // JACKSON: We define our statusCode in a separate variable because we use it in the expect()
     test('getData returns an error message on failure', () async {
       const int statusCode = 404;
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: {'key': 'value'}, statusCode: statusCode);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: {'key': 'value'}, statusCode: statusCode);
       final dynamic result = await backendClient.getData(uri: '/example');
       expect(result, equals('HTTP Request failed with status: $statusCode'));
     });
 
     test('postData returns data on success', () async {
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 201);
-      final dynamic result =
-          await backendClient.postData(uri: '/example', body: responseBody);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 201);
+      final dynamic result = await backendClient.postData(uri: '/example', body: responseBody);
       expect(result, equals(responseBody));
     });
 
     test('postData returns an error message on failure', () async {
       const int statusCode = 400;
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: statusCode);
-      final dynamic result =
-          await backendClient.postData(uri: '/example', body: responseBody);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: statusCode);
+      final dynamic result = await backendClient.postData(uri: '/example', body: responseBody);
       print('Actual Result: $result');
-      expect(result,
-          equals('Failed to execute Post Request. Status code: $statusCode'));
+      expect(result, equals('Failed to execute Post Request. Status code: $statusCode'));
     });
 
     test('putData returns data on success', () async {
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 201);
-      final dynamic result =
-          await backendClient.putData(uri: '/example', body: responseBody);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 201);
+      final dynamic result = await backendClient.putData(uri: '/example', body: responseBody);
       print('Actual Result: $result');
       expect(result, equals(responseBody));
     });
@@ -80,19 +71,15 @@ void main() {
     test('putData returns an error message on failure', () async {
       const int statusCode = 400;
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: statusCode);
-      final dynamic result =
-          await backendClient.putData(uri: '/example', body: responseBody);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: statusCode);
+      final dynamic result = await backendClient.putData(uri: '/example', body: responseBody);
       print('Actual Result: $result');
-      expect(result,
-          equals('Failed to execute Put Request. Status code: $statusCode'));
+      expect(result, equals('Failed to execute Put Request. Status code: $statusCode'));
     });
 
     test('deleteData returns data on success', () async {
       const Null responseBody = null;
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 204);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 202);
       final dynamic result = await backendClient.deleteData(uri: '/example');
       print('Actual Result: $result');
       expect(result, equals(responseBody));
@@ -100,12 +87,10 @@ void main() {
 
     test('deleteData returns an error message on failure', () async {
       const Map<String, String> responseBody = {'key': 'value'};
-      BackendClient backendClient = createBackendClientWithMockedResponse(
-          responseBody: responseBody, statusCode: 404);
+      BackendClient backendClient = createBackendClientWithMockedResponse(responseBody: responseBody, statusCode: 404);
       final dynamic result = await backendClient.deleteData(uri: '/example');
       print('Actual Result: $result');
-      expect(
-          result, equals('Failed to execute Delete Request. Status code: 404'));
+      expect(result, equals('Failed to execute Delete Request. Status code: 404'));
     });
   });
 }
