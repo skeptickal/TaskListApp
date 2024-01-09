@@ -18,10 +18,9 @@ class CompletedTaskScreen extends StatelessWidget {
           (task) {
             return ListTile(
               key: const Key('completed tiles'),
-              leading: IconButton(
-                icon: const Icon(Icons.check),
+              leading: const Icon(
+                Icons.check,
                 color: Colors.green,
-                onPressed: () {},
               ),
               title: Text(
                 task.name,
@@ -79,17 +78,7 @@ class CompletedTaskScreen extends StatelessWidget {
               'Mark Incomplete',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context
-                  .read<TaskCubit>()
-                  .updateTask(task: task, newStatus: TaskStatus.todo)
-                  .then((result) {
-                context
-                    .read<TaskCubit>()
-                    .readTasksByStatus(TaskStatus.completed);
-                context.pop();
-              });
-            },
+            onPressed: () => _markIncomplete(context, task),
           ),
           TextButton(
             key: const Key('complete_mark_deleted'),
@@ -97,17 +86,24 @@ class CompletedTaskScreen extends StatelessWidget {
               'Delete Permanently',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context.read<TaskCubit>().deleteTask(task: task).then((result) {
-                context
-                    .read<TaskCubit>()
-                    .readTasksByStatus(TaskStatus.completed);
-                context.pop();
-              });
-            },
+            onPressed: () => _deletePermanently(context, task),
           ),
         ],
       ),
     );
+  }
+
+  void _markIncomplete(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.todo).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
+  }
+
+  void _deletePermanently(BuildContext context, Task task) {
+    context.read<TaskCubit>().deleteTask(task: task).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
   }
 }

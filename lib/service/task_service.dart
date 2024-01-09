@@ -29,16 +29,13 @@ class TaskService {
       );
 
       if (data is List) {
-        List<Task> tasks =
-            List<Task>.from(data.map((taskData) => Task.fromJson(taskData)));
-        return tasks;
+        return List<Task>.from(data.map((taskData) => Task.fromJson(taskData)));
       } else {
-        print('Unexpected response format: $data');
-        return [];
+        throw Exception('Unexpected response format: $data');
       }
     } catch (e) {
       print('Error fetching tasks: $e');
-      return [];
+      throw Exception('Error fetching tasks: $e');
     }
   }
 
@@ -50,9 +47,8 @@ class TaskService {
       if (newStatus != null) {
         task = task.copyWithStatus(newStatus);
         await client.putData(
-          uri: '$taskApiBase/${task.id}/${Task.getStatusString(newStatus)}',
+          uri: '$taskApiBase/${task.id}',
           body: task.toJson(),
-          queryParams: {'status': Task.getStatusString(newStatus)},
         );
       } else {
         await client.putData(
@@ -70,7 +66,7 @@ class TaskService {
     try {
       task = task.copyWithStatus(TaskStatus.deleted);
       await client.deleteData(
-        uri: '$taskApiBase/${task.id}/delete',
+        uri: '$taskApiBase/${task.id}',
       );
     } catch (e) {
       print('Error deleting task: $e');

@@ -14,12 +14,12 @@ class EditTask extends StatelessWidget {
     TextEditingController controller = TextEditingController(text: task.name);
 
     return Form(
-      key: const Key('Form'),
+      key: const Key('edit_task_form'),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 42),
+            padding: const EdgeInsets.only(bottom: 42),
             child: TextField(
               style: TextStyle(color: iconColor),
               controller: controller,

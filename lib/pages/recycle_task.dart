@@ -78,17 +78,7 @@ class RecycleTaskScreen extends StatelessWidget {
               'Recover',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context
-                  .read<TaskCubit>()
-                  .updateTask(task: task, newStatus: TaskStatus.todo)
-                  .then((result) {
-                context
-                    .read<TaskCubit>()
-                    .readTasksByStatus(TaskStatus.recycled);
-                context.pop();
-              });
-            },
+            onPressed: () => _markIncomplete(context, task),
           ),
           TextButton(
             key: const Key('recycle_mark_deleted'),
@@ -96,17 +86,24 @@ class RecycleTaskScreen extends StatelessWidget {
               'Delete Permanently',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context.read<TaskCubit>().deleteTask(task: task).then((result) {
-                context
-                    .read<TaskCubit>()
-                    .readTasksByStatus(TaskStatus.recycled);
-                context.pop();
-              });
-            },
+            onPressed: () => _deletePermanently(context, task),
           )
         ],
       ),
     );
+  }
+
+  void _deletePermanently(BuildContext context, Task task) {
+    context.read<TaskCubit>().deleteTask(task: task).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
+  }
+
+  void _markIncomplete(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.todo).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
   }
 }

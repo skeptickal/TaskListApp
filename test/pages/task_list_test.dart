@@ -19,8 +19,7 @@ void main() {
       when(() => mockTaskCubit.state).thenReturn(
         TaskState(tasks: [task]),
       );
-      when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
-          .thenAnswer((_) => Future.value());
+      when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo)).thenAnswer((_) => Future.value());
 
       // Render the widget in the file name
       await tester.pumpWidget(Materializer(
@@ -40,8 +39,7 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
-            .thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo)).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
@@ -60,14 +58,9 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
-            .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.updateTask(
-                task: task, newStatus: TaskStatus.recycled))
-            .thenAnswer((invocation) => Future.value());
-        when(() => mockTaskCubit.updateTask(
-                task: task, newStatus: TaskStatus.completed))
-            .thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo)).thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.updateTask(task: task, newStatus: TaskStatus.recycled)).thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.updateTask(task: task, newStatus: TaskStatus.completed)).thenAnswer((invocation) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
@@ -100,8 +93,7 @@ void main() {
         );
         expect(completeTextButtonFinder, findsOneWidget);
 
-        final recycleTextButtonFinder =
-            find.byKey(const Key('incomplete_mark_recycled'));
+        final recycleTextButtonFinder = find.byKey(const Key('incomplete_mark_recycled'));
         expect(recycleTextButtonFinder, findsOneWidget);
       },
     );
@@ -113,14 +105,9 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
-            .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.updateTask(
-                task: task, newStatus: TaskStatus.recycled))
-            .thenAnswer((invocation) => Future.value());
-        when(() => mockTaskCubit.updateTask(
-                task: task, newStatus: TaskStatus.completed))
-            .thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo)).thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.updateTask(task: task, newStatus: TaskStatus.recycled)).thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.updateTask(task: task, newStatus: TaskStatus.completed)).thenAnswer((invocation) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
@@ -135,7 +122,6 @@ void main() {
 
         final editContainerFinder = find.byKey(const Key('edit_container'));
         expect(editContainerFinder, findsOneWidget);
-        await tester.pumpAndSettle();
       },
     );
   });

@@ -21,8 +21,7 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           const TaskState(tasks: []),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
-            .thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed)).thenAnswer((_) => Future.value());
 
         // Render the widget in the file name
         await tester.pumpWidget(Materializer(
@@ -43,8 +42,7 @@ void main() {
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
-            .thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed)).thenAnswer((_) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
@@ -57,18 +55,15 @@ void main() {
     );
 
     testWidgets(
-      'Pop Up Occurs',
+      'Pop Up Occurs When Trash Icon is Tapped',
       (WidgetTester tester) async {
         final MockTaskCubit mockTaskCubit = MockTaskCubit();
         when(() => mockTaskCubit.state).thenReturn(
           TaskState(tasks: [task]),
         );
-        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed))
-            .thenAnswer((_) => Future.value());
-        when(() => mockTaskCubit.updateTask(task: task))
-            .thenAnswer((invocation) => Future.value());
-        when(() => mockTaskCubit.deleteTask(task: task))
-            .thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.readTasksByStatus(TaskStatus.completed)).thenAnswer((_) => Future.value());
+        when(() => mockTaskCubit.updateTask(task: task)).thenAnswer((invocation) => Future.value());
+        when(() => mockTaskCubit.deleteTask(task: task)).thenAnswer((invocation) => Future.value());
         await tester.pumpWidget(Materializer(
           mockCubits: [mockTaskCubit],
           mockGoRouter: mockGoRouter,
@@ -93,8 +88,7 @@ void main() {
         );
         expect(incompleteTextButtonFinder, findsOneWidget);
 
-        final deleteTextButtonFinder =
-            find.byKey(const Key('complete_mark_deleted'));
+        final deleteTextButtonFinder = find.byKey(const Key('complete_mark_deleted'));
         expect(deleteTextButtonFinder, findsOneWidget);
       },
     );

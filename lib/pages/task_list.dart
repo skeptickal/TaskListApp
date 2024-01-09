@@ -34,8 +34,7 @@ class TaskList extends StatelessWidget {
               trailing: IconButton(
                   key: const Key('move_task_icon'),
                   onPressed: () => _onTapCompleteIcon(context, task),
-                  icon: const Icon(Icons.remove_circle_outline,
-                      color: Colors.green)),
+                  icon: const Icon(Icons.remove_circle_outline, color: Colors.green)),
             );
           },
         ).toList();
@@ -43,12 +42,7 @@ class TaskList extends StatelessWidget {
           bottomNavigationBar: const BottomNav(),
           backgroundColor: bgColor,
           appBar: AppBar(
-            actions: [
-              IconButton(
-                  key: const Key('go_to_recycle_bin'),
-                  onPressed: () => context.go('/recycle'),
-                  icon: const Icon(Icons.recycling))
-            ],
+            actions: [IconButton(key: const Key('go_to_recycle_bin'), onPressed: () => context.go('/recycle'), icon: const Icon(Icons.recycling))],
             iconTheme: IconThemeData(color: iconColor),
             title: Text(
               'Task List',
@@ -103,15 +97,7 @@ class TaskList extends StatelessWidget {
               'Complete',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context
-                  .read<TaskCubit>()
-                  .updateTask(task: task, newStatus: TaskStatus.completed)
-                  .then((result) {
-                context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
-                context.pop();
-              });
-            },
+            onPressed: () => _markComplete(context, task),
           ),
           TextButton(
             key: const Key('incomplete_mark_recycled'),
@@ -119,18 +105,24 @@ class TaskList extends StatelessWidget {
               'Recycle',
               style: TextStyle(color: white),
             ),
-            onPressed: () async {
-              context
-                  .read<TaskCubit>()
-                  .updateTask(task: task, newStatus: TaskStatus.recycled)
-                  .then((result) {
-                context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
-                context.pop();
-              });
-            },
+            onPressed: () => _recycleTask(context, task),
           ),
         ],
       ),
     );
+  }
+
+  void _recycleTask(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.recycled).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+      context.pop();
+    });
+  }
+
+  void _markComplete(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.completed).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+      context.pop();
+    });
   }
 }
