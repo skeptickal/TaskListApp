@@ -46,7 +46,7 @@ void main() {
           child: const TaskList(),
         ));
         await tester.pumpAndSettle();
-        final tileFinder = find.byKey(const Key('task tiles'));
+        final tileFinder = find.byKey(const Key('task_tiles'));
         expect(tileFinder, findsOneWidget);
       },
     );

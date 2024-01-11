@@ -18,7 +18,7 @@ class TaskList extends StatelessWidget {
         List<Widget> tasks = state.tasks.map(
           (task) {
             return ListTile(
-              key: const Key('task tiles'),
+              key: const Key('task_tiles'),
               leading: IconButton(
                 onPressed: () => _showEditPanel(context, task),
                 icon: Icon(

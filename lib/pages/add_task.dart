@@ -29,7 +29,7 @@ class AddTaskScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: TextField(
-              key: const Key('Add a task text field'),
+              key: const Key('add_a_task_text_field'),
               style: TextStyle(color: iconColor),
               controller: addTask,
               decoration: InputDecoration(
@@ -39,7 +39,7 @@ class AddTaskScreen extends StatelessWidget {
             ),
           ),
           IconButton(
-            key: const Key('Add Task Button'),
+            key: const Key('add_task_button'),
             icon: Icon(
               Icons.add,
               color: white,

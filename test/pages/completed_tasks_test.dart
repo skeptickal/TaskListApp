@@ -49,7 +49,7 @@ void main() {
           child: const CompletedTaskScreen(),
         ));
         await tester.pumpAndSettle();
-        final tileFinder = find.byKey(const Key('completed tiles'));
+        final tileFinder = find.byKey(const Key('completed_tiles'));
         expect(tileFinder, findsOneWidget);
       },
     );

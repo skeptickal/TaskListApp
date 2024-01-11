@@ -17,7 +17,7 @@ class CompletedTaskScreen extends StatelessWidget {
         List<Widget> completedTasks = state.tasks.map(
           (task) {
             return ListTile(
-              key: const Key('completed tiles'),
+              key: const Key('completed_tiles'),
               leading: const Icon(
                 Icons.check,
                 color: Colors.green,

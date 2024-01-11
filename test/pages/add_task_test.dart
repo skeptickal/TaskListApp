@@ -45,7 +45,7 @@ void main() {
           child: const AddTaskScreen(),
         ));
         await tester.pumpAndSettle();
-        final tileFinder = find.byKey(const Key('Add a task text field'));
+        final tileFinder = find.byKey(const Key('add_a_task_text_field'));
         expect(tileFinder, findsOneWidget);
       },
     );
@@ -69,7 +69,7 @@ void main() {
         ));
 
         // Do everything you need to make the app navigate
-        final titleFinder = find.byKey(const Key('Add Task Button'));
+        final titleFinder = find.byKey(const Key('add_task_button'));
         expect(titleFinder, findsOneWidget);
       },
     );

@@ -31,7 +31,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Home'));
+    final titleFinder = find.byKey(const Key('home'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/')).called(1);
@@ -59,7 +59,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Completed Tasks'));
+    final titleFinder = find.byKey(const Key('completed_tasks'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/completed_tasks')).called(1);
@@ -87,7 +87,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Add Task'));
+    final titleFinder = find.byKey(const Key('add_task'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/add_task')).called(1);
