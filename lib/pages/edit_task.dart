@@ -5,7 +5,7 @@ import 'package:task_list_app/models/task.dart';
 
 class EditTask extends StatelessWidget {
   final Task task;
-  final Function(Task) onTaskUpdated;
+  final Function(String) onTaskUpdated;
 
   const EditTask({super.key, required this.task, required this.onTaskUpdated});
 
@@ -36,13 +36,7 @@ class EditTask extends StatelessWidget {
             ),
             onPressed: () {
               final String updatedTaskName = controller.text;
-              final Task updatedTask = Task(
-                id: task.id,
-                name: updatedTaskName,
-                status: task.status,
-              );
-
-              onTaskUpdated(updatedTask);
+              onTaskUpdated(updatedTaskName);
               context.pop(context);
             },
             child: Text(

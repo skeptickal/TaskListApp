@@ -72,8 +72,8 @@ class TaskList extends StatelessWidget {
             color: bgColor,
             child: EditTask(
                 task: task,
-                onTaskUpdated: (updatedTask) {
-                  context.read<TaskCubit>().updateTask(task: updatedTask);
+                onTaskUpdated: (String? newName) {
+                  context.read<TaskCubit>().updateTask(task: task, newName: newName);
                 }),
           );
         });

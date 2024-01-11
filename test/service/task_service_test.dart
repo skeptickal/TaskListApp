@@ -8,6 +8,9 @@ class MockBackendClient extends Mock implements BackendClient {}
 
 void main() {
   Task task = const Task(name: 'example task', status: TaskStatus.todo);
+  Task completeTask = const Task(name: 'example task', status: TaskStatus.completed);
+  Task recycledTask = const Task(name: 'example task', status: TaskStatus.recycled);
+  Task deletedTask = const Task(name: 'example task,', status: TaskStatus.deleted);
   late TaskService sut;
   late MockBackendClient testClient;
   setUp(() {
@@ -58,7 +61,7 @@ void main() {
           uri: any(named: 'uri'),
         )).thenAnswer((invocation) => Future.value());
 
-    expect(() => sut.deleteTask(task: const Task(name: 'example task', status: TaskStatus.deleted)), returnsNormally);
+    expect(() => sut.deleteTask(task: deletedTask), returnsNormally);
   });
 
   test('Delete Task Fails', () async {
@@ -66,30 +69,30 @@ void main() {
           uri: any(named: 'uri'),
         )).thenThrow(Exception);
 
-    expect(() => sut.deleteTask(task: const Task(name: 'example task', status: TaskStatus.deleted)), throwsA(const TypeMatcher<Exception>()));
+    expect(() => sut.deleteTask(task: deletedTask), throwsA(const TypeMatcher<Exception>()));
   });
 
   test('Complete Task Succeeds', () async {
     when(() => testClient.putData(uri: any(named: 'uri'), body: any(named: 'body'))).thenAnswer((invocation) => Future<void>.value(null));
 
-    expect(() => sut.updateTask(task: task, newStatus: TaskStatus.completed), returnsNormally);
+    expect(() => sut.updateTask(task: completeTask), returnsNormally);
   });
 
   test('Recycle Task Succeeds', () async {
     when(() => testClient.putData(uri: any(named: 'uri'), body: any(named: 'body'))).thenAnswer((invocation) => Future.value(null));
 
-    expect(() => sut.updateTask(task: task, newStatus: TaskStatus.recycled), returnsNormally);
+    expect(() => sut.updateTask(task: recycledTask), returnsNormally);
   });
 
   test('Recover Task Succeeds', () async {
     when(() => testClient.putData(uri: any(named: 'uri'), body: any(named: 'body'))).thenAnswer((invocation) => Future.value(null));
 
-    expect(() => sut.updateTask(task: task, newStatus: TaskStatus.todo), returnsNormally);
+    expect(() => sut.updateTask(task: task), returnsNormally);
   });
 
   test('Recover Task Fails', () async {
     when(() => testClient.putData(uri: any(named: 'uri'), body: any(named: 'body'))).thenThrow(Exception);
 
-    expect(() => sut.updateTask(task: task, newStatus: TaskStatus.todo), throwsA(const TypeMatcher<Exception>()));
+    expect(() => sut.updateTask(task: task), throwsA(const TypeMatcher<Exception>()));
   });
 }

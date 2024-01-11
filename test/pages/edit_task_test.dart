@@ -28,8 +28,8 @@ void main() {
         child: Scaffold(
           body: EditTask(
             task: const Task(name: 'updatedTask', status: TaskStatus.todo),
-            onTaskUpdated: (updatedTask) {
-              mockTaskCubit.updateTask(task: updatedTask);
+            onTaskUpdated: (updatedTaskName) {
+              mockTaskCubit.updateTask(task: updatedTask, newName: updatedTaskName);
             },
           ),
         ),

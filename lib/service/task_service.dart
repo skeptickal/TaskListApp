@@ -41,21 +41,12 @@ class TaskService {
 
   Future<void> updateTask({
     required Task task,
-    TaskStatus? newStatus,
   }) async {
     try {
-      if (newStatus != null) {
-        task = task.copyWithStatus(newStatus);
-        await client.putData(
-          uri: '$taskApiBase/${task.id}',
-          body: task.toJson(),
-        );
-      } else {
-        await client.putData(
-          uri: '$taskApiBase/${task.id}',
-          body: task.toJson(),
-        );
-      }
+      await client.putData(
+        uri: '$taskApiBase/${task.id}',
+        body: task.toJson(),
+      );
     } catch (e) {
       print('Error updating task: $e');
       throw Exception('Update Task Failed');

@@ -53,10 +53,9 @@ class BackendClient {
   Future<dynamic> putData({
     required String uri,
     dynamic body,
-    Map<String, dynamic>? queryParams,
   }) async {
     try {
-      final Uri url = Uri.http(localhost, uri, queryParams);
+      final Uri url = Uri.http(localhost, uri);
       final response = await httpClient.put(
         url,
         headers: headers,
