@@ -12,4 +12,3 @@ Color iconColor = const Color.fromARGB(255, 173, 173, 173);
 Color black = Colors.black;
 Color white = Colors.white;
 Color drawerHeaderColor = const Color.fromARGB(255, 129, 128, 128);
-TextStyle buttonTextStyle = TextStyle(color: white, fontSize: 20);
