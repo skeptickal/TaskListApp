@@ -8,7 +8,7 @@ class TaskService {
 
   TaskService({BackendClient? client}) : client = client ?? BackendClient();
 
-  Future<void> addTask({required Task task, TaskStatus? status}) async {
+  Future<void> addTask({required Task task}) async {
     try {
       task = task.copyWithStatus(TaskStatus.todo);
       await client.postData(

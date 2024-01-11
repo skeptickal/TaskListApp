@@ -6,13 +6,17 @@ import 'package:task_list_app/models/task.dart';
 class EditTask extends StatelessWidget {
   final Task task;
   final Function(String) onTaskUpdated;
+  final TextStyle editTasksTextStyle = TextStyle(color: white, fontSize: 20);
 
-  const EditTask({super.key, required this.task, required this.onTaskUpdated});
+  EditTask({
+    Key? key,
+    required this.task,
+    required this.onTaskUpdated,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController controller = TextEditingController(text: task.name);
-
+    TextEditingController editTask = TextEditingController(text: task.name);
     return Form(
       key: const Key('edit_task_form'),
       child: Column(
@@ -22,10 +26,10 @@ class EditTask extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 42),
             child: TextField(
               style: TextStyle(color: iconColor),
-              controller: controller,
+              controller: editTask,
               decoration: InputDecoration(
                 labelText: 'Edit Task Name',
-                labelStyle: TextStyle(color: white, fontSize: 20),
+                labelStyle: editTasksTextStyle,
               ),
             ),
           ),
@@ -34,18 +38,19 @@ class EditTask extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: black,
             ),
-            onPressed: () {
-              final String updatedTaskName = controller.text;
-              onTaskUpdated(updatedTaskName);
-              context.pop(context);
-            },
+            onPressed: () => editATask(context, editTask),
             child: Text(
               'Save',
-              style: TextStyle(color: white, fontSize: 20),
+              style: editTasksTextStyle,
             ),
           ),
         ],
       ),
     );
+  }
+
+  void editATask(BuildContext context, TextEditingController editTask) {
+    onTaskUpdated(editTask.text);
+    context.pop(context);
   }
 }

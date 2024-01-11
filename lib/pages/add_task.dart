@@ -44,17 +44,19 @@ class AddTaskScreen extends StatelessWidget {
               Icons.add,
               color: white,
             ),
-            onPressed: () {
-              context.read<TaskCubit>().addTask(
-                    task: Task(name: addTask.text, status: TaskStatus.todo),
-                  );
-              addTask.clear();
-              context.go('/');
-            },
+            onPressed: () => addTaskToList(context, addTask),
             style: ElevatedButton.styleFrom(backgroundColor: black),
           ),
         ],
       ),
     );
+  }
+
+  void addTaskToList(BuildContext context, TextEditingController addTask) {
+    context.read<TaskCubit>().addTask(
+          task: Task(name: addTask.text, status: TaskStatus.todo),
+        );
+    addTask.clear();
+    context.go('/');
   }
 }

@@ -51,9 +51,7 @@ class CompletedTaskScreen extends StatelessWidget {
           ),
           body: ListView.builder(
             itemCount: completedTasks.length,
-            itemBuilder: (context, index) {
-              return completedTasks[index];
-            },
+            itemBuilder: (context, index) => completedTasks[index],
           ),
         );
       },
