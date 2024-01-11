@@ -7,26 +7,22 @@ import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/pages/edit_task.dart';
 
-class TaskList extends StatefulWidget {
+class TaskList extends StatelessWidget {
   const TaskList({super.key});
 
   @override
-  State<TaskList> createState() => _TaskListState();
-}
-
-class _TaskListState extends State<TaskList> {
-  @override
   Widget build(BuildContext context) {
-    context.read<TaskCubit>().readTasks();
+    context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
     return BlocBuilder<TaskCubit, TaskState>(
       builder: (context, state) {
         List<Widget> tasks = state.tasks.map(
           (task) {
             return ListTile(
-              key: const Key('task tiles'),
+              key: const Key('task_tiles'),
               leading: IconButton(
                 onPressed: () => _showEditPanel(context, task),
                 icon: Icon(
+                  key: const Key('edit_icon'),
                   Icons.edit,
                   color: iconColor,
                 ),
@@ -36,9 +32,9 @@ class _TaskListState extends State<TaskList> {
                 style: tilesText,
               ),
               trailing: IconButton(
-                  onPressed: () => _onTapCompleteIcon(task),
-                  icon: const Icon(Icons.remove_circle_outline,
-                      color: Colors.green)),
+                  key: const Key('move_task_icon'),
+                  onPressed: () => _onTapCompleteIcon(context, task),
+                  icon: const Icon(Icons.remove_circle_outline, color: Colors.green)),
             );
           },
         ).toList();
@@ -46,11 +42,7 @@ class _TaskListState extends State<TaskList> {
           bottomNavigationBar: const BottomNav(),
           backgroundColor: bgColor,
           appBar: AppBar(
-            actions: [
-              IconButton(
-                  onPressed: () => context.go('/recycle'),
-                  icon: Icon(Icons.recycling))
-            ],
+            actions: [IconButton(key: const Key('go_to_recycle_bin'), onPressed: () => context.go('/recycle'), icon: const Icon(Icons.recycling))],
             iconTheme: IconThemeData(color: iconColor),
             title: Text(
               'Task List',
@@ -75,47 +67,62 @@ class _TaskListState extends State<TaskList> {
         context: context,
         builder: (context) {
           return Container(
+            key: const Key('edit_container'),
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 60),
             color: bgColor,
             child: EditTask(
                 task: task,
-                onTaskUpdated: (updatedTask) {
-                  context
-                      .read<TaskCubit>()
-                      .updateTask(updatedTask: updatedTask);
+                onTaskUpdated: (String? newName) {
+                  context.read<TaskCubit>().updateTask(task: task, newName: newName);
                 }),
           );
         });
   }
 
-  void _onTapCompleteIcon(Task task) {
+  void _onTapCompleteIcon(BuildContext context, Task task) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          title: Text(
-            'Complete or Recycle Task?',
-            style: TextStyle(color: white),
+        key: const Key('complete_or_recycle'),
+        title: Text(
+          'Complete or Recycle Task?',
+          style: TextStyle(color: white),
+        ),
+        backgroundColor: bgColor,
+        surfaceTintColor: bgColor,
+        actions: [
+          TextButton(
+            key: const Key('incomplete_mark_complete'),
+            child: Text(
+              'Complete',
+              style: TextStyle(color: white),
+            ),
+            onPressed: () => _markComplete(context, task),
           ),
-          backgroundColor: bgColor,
-          surfaceTintColor: bgColor,
-          actions: [
-            TextButton(
-              child: Text(
-                'Complete',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () => context.pop(),
+          TextButton(
+            key: const Key('incomplete_mark_recycled'),
+            child: Text(
+              'Recycle',
+              style: TextStyle(color: white),
             ),
-            TextButton(
-              child: Text(
-                'Recycle',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () => context.pop(),
-            ),
-          ]),
+            onPressed: () => _recycleTask(context, task),
+          ),
+        ],
+      ),
     );
+  }
 
-    //context.read<TaskCubit>().completeTask(task: task);
+  void _recycleTask(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.recycled).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+      context.pop();
+    });
+  }
+
+  void _markComplete(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.completed).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.todo);
+      context.pop();
+    });
   }
 }

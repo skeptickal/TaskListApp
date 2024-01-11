@@ -6,17 +6,13 @@ import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({super.key});
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
-}
-
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  final TextEditingController _addTask = TextEditingController();
-  @override
   Widget build(BuildContext context) {
+    final TextEditingController addTask = TextEditingController();
+
     return Scaffold(
       bottomNavigationBar: const BottomNav(),
       backgroundColor: bgColor,
@@ -33,8 +29,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
           Padding(
             padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
             child: TextField(
-              key: const Key('Add a task text field'),
-              controller: _addTask,
+              key: const Key('add_a_task_text_field'),
+              style: TextStyle(color: iconColor),
+              controller: addTask,
               decoration: InputDecoration(
                 labelText: 'e.g. walk the dog, do the dishes...',
                 labelStyle: TextStyle(color: white, fontSize: 14),
@@ -42,21 +39,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             ),
           ),
           IconButton(
-              key: const Key('Add Task Button'),
-              icon: Icon(
-                Icons.add,
-                color: white,
-              ),
-              onPressed: () {
-                context
-                    .read<TaskCubit>()
-                    .addTask(task: Task(name: _addTask.text));
-                _addTask.clear();
-                context.go('/');
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: black)),
+            key: const Key('add_task_button'),
+            icon: Icon(
+              Icons.add,
+              color: white,
+            ),
+            onPressed: () => addTaskToList(context, addTask),
+            style: ElevatedButton.styleFrom(backgroundColor: black),
+          ),
         ],
       ),
     );
+  }
+
+  void addTaskToList(BuildContext context, TextEditingController addTask) {
+    context.read<TaskCubit>().addTask(
+          task: Task(name: addTask.text, status: TaskStatus.todo),
+        );
+    addTask.clear();
+    context.go('/');
   }
 }

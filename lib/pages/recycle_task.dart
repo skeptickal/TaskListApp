@@ -6,23 +6,19 @@ import 'package:task_list_app/constants/constants.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
 import 'package:task_list_app/models/task.dart';
 
-class RecycleTaskScreen extends StatefulWidget {
+class RecycleTaskScreen extends StatelessWidget {
   const RecycleTaskScreen({super.key});
 
   @override
-  State<RecycleTaskScreen> createState() => _RecycleTaskScreenState();
-}
-
-class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
-  @override
   Widget build(BuildContext context) {
-    context.read<TaskCubit>().readTasks();
+    context.read<TaskCubit>().readTasksByStatus(TaskStatus.recycled);
     return BlocBuilder<TaskCubit, TaskState>(builder: (context, state) {
       List<Widget> recycledTasks = state.tasks.map(
         (task) {
           return ListTile(
-            key: const Key('completed tiles'),
+            key: const Key('recycled_tiles'),
             leading: IconButton(
+              key: const Key('recycle_icon'),
               icon: const Icon(Icons.recycling),
               color: Colors.blueGrey,
               onPressed: () {},
@@ -32,7 +28,8 @@ class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
               style: tilesText,
             ),
             trailing: IconButton(
-              onPressed: () => _onTapTrashIcon(task),
+              key: const Key('red_trash_icon'),
+              onPressed: () => _onTapTrashIcon(context, task),
               icon: const Icon(
                 Icons.delete,
                 color: Colors.redAccent,
@@ -63,33 +60,50 @@ class _RecycleTaskScreenState extends State<RecycleTaskScreen> {
     });
   }
 
-  void _onTapTrashIcon(Task task) {
+  void _onTapTrashIcon(BuildContext context, Task task) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-          surfaceTintColor: bgColor,
-          backgroundColor: bgColor,
-          title: Text(
-            'Recover or Delete Task?',
-            style: TextStyle(color: white),
+        key: const Key('recover_or_delete'),
+        surfaceTintColor: bgColor,
+        backgroundColor: bgColor,
+        title: Text(
+          'Recover or Delete Task?',
+          style: TextStyle(color: white),
+        ),
+        actions: [
+          TextButton(
+            key: const Key('recycle_mark_recover'),
+            child: Text(
+              'Recover',
+              style: TextStyle(color: white),
+            ),
+            onPressed: () => _markIncomplete(context, task),
           ),
-          actions: [
-            TextButton(
-              child: Text(
-                'Recover Task',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () => context.pop(),
+          TextButton(
+            key: const Key('recycle_mark_deleted'),
+            child: Text(
+              'Delete Permanently',
+              style: TextStyle(color: white),
             ),
-            TextButton(
-              child: Text(
-                'Delete Permanently',
-                style: TextStyle(color: white),
-              ),
-              onPressed: () => context.pop(),
-            ),
-          ]),
+            onPressed: () => _deletePermanently(context, task),
+          )
+        ],
+      ),
     );
-    context.read<TaskCubit>().deleteTask(task: task);
+  }
+
+  void _deletePermanently(BuildContext context, Task task) {
+    context.read<TaskCubit>().deleteTask(task: task).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
+  }
+
+  void _markIncomplete(BuildContext context, Task task) {
+    context.read<TaskCubit>().updateTask(task: task, newStatus: TaskStatus.todo).then((result) {
+      context.read<TaskCubit>().readTasksByStatus(TaskStatus.completed);
+      context.pop();
+    });
   }
 }
