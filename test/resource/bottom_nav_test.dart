@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:task_list_app/cubit/task_cubit.dart';
+import 'package:task_list_app/models/task.dart';
 import 'package:task_list_app/resource/bottom_nav.dart';
 import '../materializer.dart';
 import '../mocks.dart';
@@ -14,7 +15,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(
@@ -29,7 +31,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Home'));
+    final titleFinder = find.byKey(const Key('home'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/')).called(1);
@@ -41,7 +43,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(
@@ -56,7 +59,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Completed Tasks'));
+    final titleFinder = find.byKey(const Key('completed_tasks'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/completed_tasks')).called(1);
@@ -68,7 +71,8 @@ void main() {
     when(() => mockTaskCubit.state).thenReturn(
       const TaskState(tasks: []),
     );
-    when(() => mockTaskCubit.readTasks()).thenAnswer((_) => Future.value());
+    when(() => mockTaskCubit.readTasksByStatus(TaskStatus.todo))
+        .thenAnswer((_) => Future.value());
 
     // Render the widget with a MaterialApp
     await tester.pumpWidget(
@@ -83,7 +87,7 @@ void main() {
     await tester.pumpAndSettle();
 
     // Perform your tests
-    final titleFinder = find.byKey(const Key('Add Task'));
+    final titleFinder = find.byKey(const Key('add_task'));
     expect(titleFinder, findsOneWidget);
     await tester.tap(titleFinder);
     verify(() => mockGoRouter.go('/add_task')).called(1);

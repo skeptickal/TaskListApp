@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/pages/add_task.dart';
 import 'package:task_list_app/pages/completed_tasks.dart';
+import 'package:task_list_app/pages/recycle_task.dart';
 import 'package:task_list_app/pages/task_list.dart';
 import 'package:flutter/material.dart';
 
@@ -73,6 +74,12 @@ GoRouter router({String initialLocation = '/'}) => GoRouter(
             state: state,
             child: const CompletedTaskScreen(),
           ),
+        ),
+        GoRoute(
+          path: '/recycle',
+          builder: (BuildContext context, GoRouterState state) {
+            return const RecycleTaskScreen();
+          },
         ),
       ],
       initialLocation: initialLocation,

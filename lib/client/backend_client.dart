@@ -8,11 +8,10 @@ class BackendClient {
   final http.Client httpClient;
 
   // JACKSON: Same idea as the service. We want to have a way to pass in a mock, but the default use of the constructor will be a real http.Client()
-  BackendClient({http.Client? httpClient})
-      : httpClient = httpClient ?? http.Client();
+  BackendClient({http.Client? httpClient}) : httpClient = httpClient ?? http.Client();
 
-  Future<dynamic> getData({required String uri}) async {
-    var url = Uri.http(localhost, uri);
+  Future<dynamic> getData({required String uri, Map<String, dynamic>? queryParams}) async {
+    final Uri url = Uri.http(localhost, uri, queryParams);
     try {
       // JACKSON: Search for this bit in the pub.dev page: "If you're making multiple requests to the same server, you can keep open a persistent connection"
       var response = await httpClient.get(url);
@@ -41,8 +40,7 @@ class BackendClient {
         print('Post executed successfully');
         return jsonDecode(response.body);
       } else {
-        String errorMessage =
-            'Failed to execute Post Request. Status code: ${response.statusCode}';
+        String errorMessage = 'Failed to execute Post Request. Status code: ${response.statusCode}';
         print(errorMessage);
         return errorMessage;
       }
@@ -52,7 +50,10 @@ class BackendClient {
     }
   }
 
-  Future<dynamic> putData({required String uri, dynamic body}) async {
+  Future<dynamic> putData({
+    required String uri,
+    dynamic body,
+  }) async {
     try {
       final Uri url = Uri.http(localhost, uri);
       final response = await httpClient.put(
@@ -64,8 +65,7 @@ class BackendClient {
         print('Put executed successfully');
         return jsonDecode(response.body);
       } else {
-        String errorMessage =
-            'Failed to execute Put Request. Status code: ${response.statusCode}';
+        String errorMessage = 'Failed to execute Put Request. Status code: ${response.statusCode}';
         print(errorMessage);
         return errorMessage;
       }
@@ -75,5 +75,25 @@ class BackendClient {
     }
   }
 
-  //void deleteData(String data) - remove completely from API and view
+  Future<dynamic> deleteData({required String uri}) async {
+    try {
+      final Uri url = Uri.http(localhost, uri);
+      final response = await httpClient.delete(
+        url,
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.accepted) {
+        print('Delete executed successfully');
+        return null;
+      } else {
+        final String errorMessage = 'Failed to execute Delete Request. Status code: ${response.statusCode}';
+        print(errorMessage);
+        return errorMessage;
+      }
+    } catch (e) {
+      print('Error during HTTP request: $e');
+      rethrow;
+    }
+  }
 }
