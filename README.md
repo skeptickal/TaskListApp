@@ -1,16 +1,19 @@
-# task_list_app
+# Task List App
 
-A new Flutter project.
+A simple to-do list app built with Flutter and Bloc for state management.
+
+## Features
+
+- Add tasks to your to-do list.
+- Mark tasks as completed.
+- View completed tasks on a separate page.
+- Delete tasks from your to-do list.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Follow these steps to run the app on your local machine:
 
-A few resources to get you started if this is your first Flutter project:
+1. Clone this repository:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+   ```bash
+   git clone https://github.com/skeptickal/TaskList.git
