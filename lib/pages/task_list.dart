@@ -42,7 +42,18 @@ class TaskList extends StatelessWidget {
           bottomNavigationBar: const BottomNav(),
           backgroundColor: bgColor,
           appBar: AppBar(
-            actions: [IconButton(key: const Key('go_to_recycle_bin'), onPressed: () => context.go('/recycle'), icon: const Icon(Icons.recycling))],
+            actions: [
+              IconButton(
+                key: const Key('go_to_recycle_bin'),
+                onPressed: () => context.go('/recycle'),
+                icon: const Icon(Icons.recycling),
+              ),
+              IconButton(
+                key: const Key('go_to_google_maps)'),
+                onPressed: () => context.go('/map'),
+                icon: const Icon(Icons.map),
+              )
+            ],
             iconTheme: IconThemeData(color: iconColor),
             title: Text(
               'Task List',

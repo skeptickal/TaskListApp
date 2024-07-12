@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:task_list_app/pages/add_task.dart';
 import 'package:task_list_app/pages/completed_tasks.dart';
+import 'package:task_list_app/pages/map_screen.dart';
 import 'package:task_list_app/pages/recycle_task.dart';
 import 'package:task_list_app/pages/task_list.dart';
 import 'package:flutter/material.dart';
@@ -59,8 +60,7 @@ GoRouter router({String initialLocation = '/'}) => GoRouter(
         ),
         GoRoute(
           path: '/add_task',
-          pageBuilder: (context, state) =>
-              buildPageWithRightSlideTransition<void>(
+          pageBuilder: (context, state) => buildPageWithRightSlideTransition<void>(
             context: context,
             state: state,
             child: const AddTaskScreen(),
@@ -68,8 +68,7 @@ GoRouter router({String initialLocation = '/'}) => GoRouter(
         ),
         GoRoute(
           path: '/completed_tasks',
-          pageBuilder: (context, state) =>
-              buildPageWithLeftSlideTransition<void>(
+          pageBuilder: (context, state) => buildPageWithLeftSlideTransition<void>(
             context: context,
             state: state,
             child: const CompletedTaskScreen(),
@@ -79,6 +78,12 @@ GoRouter router({String initialLocation = '/'}) => GoRouter(
           path: '/recycle',
           builder: (BuildContext context, GoRouterState state) {
             return const RecycleTaskScreen();
+          },
+        ),
+        GoRoute(
+          path: '/map',
+          builder: (BuildContext context, GoRouterState state) {
+            return const MapScreen();
           },
         ),
       ],
